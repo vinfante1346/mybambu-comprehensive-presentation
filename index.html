@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyBambu Comprehensive Marketing Presentation</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -273,6 +274,69 @@
             margin-top: 10px;
         }
 
+        /* D3 Chart Container */
+        .chart-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .chart-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+        }
+
+        /* D3 Styles */
+        .bar {
+            transition: all 0.3s ease;
+        }
+
+        .bar:hover {
+            opacity: 0.8;
+        }
+
+        .axis path,
+        .axis line {
+            stroke: var(--border-light);
+        }
+
+        .axis text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            fill: var(--text-gray);
+        }
+
+        .line {
+            fill: none;
+            stroke-width: 3;
+        }
+
+        .dot {
+            transition: all 0.2s ease;
+        }
+
+        .dot:hover {
+            r: 8;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: var(--primary-dark);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
         /* Content Boxes */
         .content-box {
             background: white;
@@ -288,43 +352,6 @@
             color: var(--primary-dark);
             margin-bottom: 20px;
             font-weight: 700;
-        }
-
-        .content-box p {
-            color: var(--text-gray);
-            font-size: 16px;
-            line-height: 1.8;
-            margin-bottom: 15px;
-        }
-
-        .content-box ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .content-box li {
-            padding: 15px 0;
-            padding-left: 40px;
-            position: relative;
-            color: var(--text-gray);
-            font-size: 16px;
-            line-height: 1.7;
-        }
-
-        .content-box li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            width: 28px;
-            height: 28px;
-            background: linear-gradient(135deg, var(--primary-green) 0%, #1ed760 100%);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 16px;
         }
 
         /* Tables */
@@ -404,6 +431,10 @@
             .section-title {
                 font-size: 36px;
             }
+
+            .chart-container {
+                padding: 20px;
+            }
         }
 
         /* Mobile Menu Toggle */
@@ -459,6 +490,17 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(39, 251, 107, 0.6);
         }
+
+        /* Progress Ring */
+        .progress-ring {
+            margin: 20px auto;
+        }
+
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
     </style>
 </head>
 <body>
@@ -491,7 +533,7 @@
             <div class="nav-section-title">Paid Advertising</div>
             <a class="nav-item" onclick="showSection('paid-ads-q3')">Q3 2025 Results</a>
             <a class="nav-item" onclick="showSection('paid-ads-conversion')">Conversion Funnel</a>
-            <a class="nav-item" onclick="showSection('paid-ads-efficiency')">Cost Efficiency</a>
+            <a class="nav-item" onclick="showSection('paid-ads-trends')">Cost Trends</a>
         </div>
 
         <div class="nav-section">
@@ -505,17 +547,12 @@
             <div class="nav-section-title">Budget & Strategy</div>
             <a class="nav-item" onclick="showSection('marketing-budget')">Marketing Budget</a>
             <a class="nav-item" onclick="showSection('acquisition-channels')">Acquisition Channels</a>
-            <a class="nav-item" onclick="showSection('strategy-insights')">Strategic Insights</a>
-        </div>
-
-        <div class="nav-section">
-            <div class="nav-section-title">October 2025 Deep Dive</div>
-            <a class="nav-item" onclick="showSection('october-overview')">October Overview</a>
-            <a class="nav-item" onclick="showSection('october-acquisition')">Acquisition Analysis</a>
-            <a class="nav-item" onclick="showSection('october-recommendations')">Recommendations</a>
         </div>
     </nav>
 </aside>
+
+<!-- Tooltip for D3 charts -->
+<div class="tooltip" id="tooltip"></div>
 
 <!-- Main Content -->
 <main class="main-content">
@@ -556,7 +593,7 @@
     <div class="section-header">
         <span class="section-number">Influencer Marketing</span>
         <h1 class="section-title">2024-2025 Combined Impact</h1>
-        <p class="section-subtitle">Two years of influencer marketing excellence delivering unprecedented results across all platforms and markets</p>
+        <p class="section-subtitle">Two years of influencer marketing excellence delivering unprecedented results</p>
     </div>
 
     <div class="metric-grid">
@@ -580,62 +617,16 @@
             <div class="metric-label">Influencers</div>
             <div class="metric-detail">Active partnerships</div>
         </div>
-        <div class="metric-card">
-            <div class="metric-number">+56%</div>
-            <div class="metric-label">YoY Growth</div>
-            <div class="metric-detail">2024 to 2025</div>
-        </div>
-        <div class="metric-card">
-            <div class="metric-number">17+</div>
-            <div class="metric-label">Markets</div>
-            <div class="metric-detail">Latin American countries</div>
-        </div>
     </div>
 
-    <div class="content-box">
-        <h3>Year-by-Year Breakdown</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Metric</th>
-                    <th>2024</th>
-                    <th>2025 (Jan-Oct)</th>
-                    <th>Growth</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Total Videos</strong></td>
-                    <td>432</td>
-                    <td>602</td>
-                    <td style="color: var(--primary-green); font-weight: 700;">+39%</td>
-                </tr>
-                <tr>
-                    <td><strong>Total Views</strong></td>
-                    <td>38.8M</td>
-                    <td>60.4M</td>
-                    <td style="color: var(--primary-green); font-weight: 700;">+56%</td>
-                </tr>
-                <tr>
-                    <td><strong>Avg Views/Video</strong></td>
-                    <td>89,709</td>
-                    <td>100,268</td>
-                    <td style="color: var(--primary-green); font-weight: 700;">+12%</td>
-                </tr>
-                <tr>
-                    <td><strong>Engagement Rate</strong></td>
-                    <td>4.13%</td>
-                    <td>0.83%</td>
-                    <td style="color: #ff6b6b; font-weight: 700;">-80%</td>
-                </tr>
-                <tr>
-                    <td><strong>Total Engagements</strong></td>
-                    <td>1.6M</td>
-                    <td>500K</td>
-                    <td style="color: #ff6b6b; font-weight: 700;">-69%</td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- D3 Chart: Year-over-Year Growth -->
+    <div class="chart-container">
+        <div class="chart-title">📊 Year-over-Year Growth Comparison</div>
+        <div id="yoyGrowthChart"></div>
+    </div>
+
+    <div class="insight-box">
+        <strong>Key Insight:</strong> 56% YoY growth in total views (38.8M → 60.4M) with 39% increase in video output. Average views per video improved 12% despite engagement rate challenges requiring strategic attention.
     </div>
 </section>
 
@@ -644,44 +635,32 @@
     <div class="section-header">
         <span class="section-number">Performance Metrics</span>
         <h1 class="section-title">2024 Complete Metrics</h1>
-        <p class="section-subtitle">Comprehensive breakdown of all influencer marketing KPIs and engagement data</p>
+        <p class="section-subtitle">Comprehensive breakdown of all influencer marketing KPIs</p>
     </div>
 
     <div class="metric-grid">
         <div class="metric-card">
             <div class="metric-number">38.8M</div>
             <div class="metric-label">Total Views</div>
-            <div class="metric-detail">38,754,504 impressions</div>
         </div>
         <div class="metric-card">
             <div class="metric-number">1.45M</div>
             <div class="metric-label">Total Likes</div>
-            <div class="metric-detail">1,453,096 engagements</div>
         </div>
         <div class="metric-card">
             <div class="metric-number">30,825</div>
             <div class="metric-label">Comments</div>
-            <div class="metric-detail">Active conversations</div>
-        </div>
-        <div class="metric-card">
-            <div class="metric-number">65,059</div>
-            <div class="metric-label">Shares</div>
-            <div class="metric-detail">Viral distribution</div>
-        </div>
-        <div class="metric-card">
-            <div class="metric-number">49,912</div>
-            <div class="metric-label">Saves</div>
-            <div class="metric-detail">High-value content</div>
         </div>
         <div class="metric-card">
             <div class="metric-number">4.13%</div>
             <div class="metric-label">Engagement Rate</div>
-            <div class="metric-detail">Industry-leading</div>
         </div>
     </div>
 
-    <div class="insight-box">
-        <strong>Key Insight:</strong> 4.13% engagement rate with 1,598,892 total engagements demonstrates authentic audience connection. 89,709 average views per video far exceeds industry benchmarks, proving strategic creator selection and content excellence.
+    <!-- D3 Chart: Engagement Breakdown -->
+    <div class="chart-container">
+        <div class="chart-title">🎯 2024 Engagement Breakdown</div>
+        <div id="engagementDonutChart"></div>
     </div>
 </section>
 
@@ -693,26 +672,32 @@
         <p class="section-subtitle">Strategic distribution across Instagram, TikTok, Facebook, and YouTube</p>
     </div>
 
+    <!-- D3 Chart: Platform Distribution -->
+    <div class="chart-container">
+        <div class="chart-title">📱 Platform Distribution (2024)</div>
+        <div id="platformChart"></div>
+    </div>
+
     <div class="metric-grid">
         <div class="metric-card">
             <div class="metric-number">61%</div>
             <div class="metric-label">Instagram</div>
-            <div class="metric-detail">264 videos - Leading Platform</div>
+            <div class="metric-detail">264 videos</div>
         </div>
         <div class="metric-card">
             <div class="metric-number">26%</div>
             <div class="metric-label">TikTok</div>
-            <div class="metric-detail">114 videos - High Engagement</div>
+            <div class="metric-detail">114 videos</div>
         </div>
         <div class="metric-card">
             <div class="metric-number">12%</div>
             <div class="metric-label">Facebook</div>
-            <div class="metric-detail">51 videos - Mature Audience</div>
+            <div class="metric-detail">51 videos</div>
         </div>
         <div class="metric-card">
             <div class="metric-number">1%</div>
             <div class="metric-label">YouTube</div>
-            <div class="metric-detail">3 videos - Growth Opportunity</div>
+            <div class="metric-detail">3 videos - Growth Opp</div>
         </div>
     </div>
 </section>
@@ -725,48 +710,11 @@
         <p class="section-subtitle">Our superstar influencer partners who drove millions of views</p>
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Creator</th>
-                <th>Total Views</th>
-                <th>Performance</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style="font-size: 32px;">🥇</td>
-                <td><strong>Antonia Botero</strong></td>
-                <td><strong>10,378,400</strong></td>
-                <td><span style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: white; padding: 6px 16px; border-radius: 20px; font-weight: 700;">Top Performer</span></td>
-            </tr>
-            <tr>
-                <td style="font-size: 32px;">🥈</td>
-                <td><strong>Hormazatv</strong></td>
-                <td><strong>4,423,700</strong></td>
-                <td><span style="background: linear-gradient(135deg, #C0C0C0 0%, #A8A8A8 100%); color: white; padding: 6px 16px; border-radius: 20px; font-weight: 700;">Silver</span></td>
-            </tr>
-            <tr>
-                <td style="font-size: 32px;">🥉</td>
-                <td><strong>Yoaibimar Daal Daal</strong></td>
-                <td><strong>3,522,300</strong></td>
-                <td><span style="background: linear-gradient(135deg, #CD7F32 0%, #B87333 100%); color: white; padding: 6px 16px; border-radius: 20px; font-weight: 700;">Bronze</span></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Antonia Botero y Xavi</td>
-                <td>1,735,000</td>
-                <td>Strong</td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Nati Show</td>
-                <td>1,457,110</td>
-                <td>Strong</td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- D3 Chart: Top Creators -->
+    <div class="chart-container">
+        <div class="chart-title">🏆 Top 10 Creators by Total Views</div>
+        <div id="topCreatorsChart"></div>
+    </div>
 </section>
 
 <!-- Q3 Paid Ads Results -->
@@ -779,53 +727,30 @@
 
     <div class="metric-grid">
         <div class="metric-card">
-            <div class="metric-number">92,837</div>
-            <div class="metric-label">Original Goal</div>
-            <div class="metric-detail">accounts at $45 CPA</div>
-        </div>
-        <div class="metric-card" style="border-color: var(--primary-green);">
             <div class="metric-number">112,965</div>
-            <div class="metric-label">Real Result</div>
-            <div class="metric-detail">accounts at $47.95 CPA</div>
+            <div class="metric-label">Accounts Acquired</div>
+            <div class="metric-detail">22% above target</div>
         </div>
         <div class="metric-card">
-            <div class="metric-number">73,257</div>
-            <div class="metric-label">Paid Channel</div>
-            <div class="metric-detail">accounts at $41.40 CPA</div>
+            <div class="metric-number">$41.40</div>
+            <div class="metric-label">Cost Per Account</div>
+            <div class="metric-detail">40% better than industry</div>
         </div>
         <div class="metric-card">
-            <div class="metric-number">+20,128</div>
-            <div class="metric-label">vs Target</div>
-            <div class="metric-detail">more accounts than planned</div>
+            <div class="metric-number">35%</div>
+            <div class="metric-label">Conversion Rate</div>
+            <div class="metric-detail">Exceeds 30% KPI</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">$5.4M</div>
+            <div class="metric-label">Total Q3 Spend</div>
         </div>
     </div>
 
-    <div class="content-box">
-        <h3>Industry Benchmark Comparison</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Metric</th>
-                    <th>MyBambu</th>
-                    <th>Industry</th>
-                    <th>Performance</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>CPA (Cost Per Account)</strong></td>
-                    <td style="color: var(--primary-green); font-weight: 900;">$41.40</td>
-                    <td>$65-85</td>
-                    <td style="color: var(--primary-green); font-weight: 700;">▲ 40% Better</td>
-                </tr>
-                <tr>
-                    <td><strong>Install-to-Account Rate</strong></td>
-                    <td style="color: var(--primary-green); font-weight: 900;">35%</td>
-                    <td>20-25%</td>
-                    <td style="color: var(--primary-green); font-weight: 700;">▲ 40% Better</td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- D3 Chart: Target vs Actual -->
+    <div class="chart-container">
+        <div class="chart-title">🎯 Q3 Target Achievement</div>
+        <div id="targetAchievementChart"></div>
     </div>
 
     <div class="insight-box">
@@ -839,6 +764,12 @@
         <span class="section-number">Conversion Analysis</span>
         <h1 class="section-title">Q3 Conversion Funnel</h1>
         <p class="section-subtitle">35% end-to-end conversion rate exceeds 30% KPI</p>
+    </div>
+
+    <!-- D3 Chart: Conversion Funnel -->
+    <div class="chart-container">
+        <div class="chart-title">📈 Monthly Conversion Trends (July-September)</div>
+        <div id="conversionTrendChart"></div>
     </div>
 
     <table>
@@ -871,18 +802,20 @@
             </tr>
         </tbody>
     </table>
-
-    <div class="insight-box">
-        <strong>Insight:</strong> September's 35% end-to-end conversion rate is 75% better than industry standard (20-25%) and exceeds our 30% KPI. Strong product-market fit and effective onboarding driving results. Quarterly improvement of +7 points (25% growth).
-    </div>
 </section>
 
-<!-- Cost Efficiency -->
-<section id="paid-ads-efficiency" class="content-section">
+<!-- Cost Trends -->
+<section id="paid-ads-trends" class="content-section">
     <div class="section-header">
         <span class="section-number">Cost Efficiency</span>
-        <h1 class="section-title">Cost Metrics vs Industry</h1>
+        <h1 class="section-title">Cost Metrics Trends</h1>
         <p class="section-subtitle">All metrics significantly below industry benchmarks</p>
+    </div>
+
+    <!-- D3 Chart: Cost Trends -->
+    <div class="chart-container">
+        <div class="chart-title">💰 CPA Trend vs Industry Average</div>
+        <div id="cpaTrendChart"></div>
     </div>
 
     <div class="metric-grid">
@@ -901,15 +834,6 @@
             <div class="metric-label">CPA (Q3 Avg)</div>
             <div class="metric-detail">Industry: $65-85 | ▲ 40% Better</div>
         </div>
-        <div class="metric-card">
-            <div class="metric-number">$5.4M</div>
-            <div class="metric-label">Total Q3 Spend</div>
-            <div class="metric-detail">Marketing investment</div>
-        </div>
-    </div>
-
-    <div class="insight-box">
-        <strong>Insight:</strong> All cost metrics significantly below industry benchmarks. CPA of $41.40 is 40% more efficient than fintech average, indicating excellent campaign optimization and strong organic growth complementing paid efforts.
     </div>
 </section>
 
@@ -925,7 +849,6 @@
         <div class="metric-card">
             <div class="metric-number">214,852</div>
             <div class="metric-label">Active Customers</div>
-            <div class="metric-detail">Past 6 months</div>
         </div>
         <div class="metric-card">
             <div class="metric-number">8.37</div>
@@ -934,13 +857,12 @@
         </div>
         <div class="metric-card">
             <div class="metric-number">$9.06</div>
-            <div class="metric-label">Avg Monthly Revenue</div>
+            <div class="metric-label">Monthly Revenue</div>
             <div class="metric-detail">Per customer</div>
         </div>
         <div class="metric-card">
             <div class="metric-number">14</div>
-            <div class="metric-label">Avg Monthly Transactions</div>
-            <div class="metric-detail">Per customer</div>
+            <div class="metric-label">Monthly Transactions</div>
         </div>
     </div>
 </section>
@@ -953,63 +875,20 @@
         <p class="section-subtitle">Based on engagement, transaction frequency, and lifetime value</p>
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Segment</th>
-                <th>Customers</th>
-                <th>% of Total</th>
-                <th>Retention</th>
-                <th>Avg Revenue</th>
-                <th>Transactions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>💎 Diamond</strong></td>
-                <td>18,447</td>
-                <td>8.58%</td>
-                <td><strong>13.51 months</strong></td>
-                <td><strong>$30.60/mo</strong></td>
-                <td>44/month</td>
-            </tr>
-            <tr>
-                <td><strong>💚 Emerald</strong></td>
-                <td>34,721</td>
-                <td>16.16%</td>
-                <td>11.35 months</td>
-                <td>$13.96/mo</td>
-                <td>21/month</td>
-            </tr>
-            <tr>
-                <td><strong>💙 Sapphire</strong></td>
-                <td>49,383</td>
-                <td>22.99%</td>
-                <td>9.23 months</td>
-                <td>$6.18/mo</td>
-                <td>11/month</td>
-            </tr>
-            <tr>
-                <td><strong>🔷 Ruby</strong></td>
-                <td>40,886</td>
-                <td>19.03%</td>
-                <td>7.7 months</td>
-                <td>$3.12/mo</td>
-                <td>8/month</td>
-            </tr>
-            <tr>
-                <td><strong>⚪ Pearl</strong></td>
-                <td>71,415</td>
-                <td>33.24%</td>
-                <td>4.64 months</td>
-                <td>$2.08/mo</td>
-                <td>4/month</td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- D3 Chart: Customer Segments -->
+    <div class="chart-container">
+        <div class="chart-title">👥 Customer Segment Distribution</div>
+        <div id="customerSegmentsChart"></div>
+    </div>
+
+    <!-- D3 Chart: Retention by Segment -->
+    <div class="chart-container">
+        <div class="chart-title">📊 Retention & Revenue by Segment</div>
+        <div id="segmentRetentionChart"></div>
+    </div>
 
     <div class="insight-box">
-        <strong>Key Insight:</strong> Diamond customers stay 3x longer than average and generate 3.4x more revenue per month. Top 25% of customers (Diamond + Emerald) drive majority of engagement and revenue.
+        <strong>Key Insight:</strong> Diamond customers stay 3x longer (13.51 months vs 4.64 months for Pearl) and generate 3.4x more revenue ($30.60 vs $9.06 average). Top 25% of customers (Diamond + Emerald) drive majority of engagement.
     </div>
 </section>
 
@@ -1021,18 +900,14 @@
         <p class="section-subtitle">Customers using multiple products stay active significantly longer</p>
     </div>
 
-    <div class="content-box">
-        <h3>Product Adoption Rates</h3>
-        <ul>
-            <li><strong>Card + Cash Loads:</strong> 56.0% adoption (128,498 users) - Most popular bundle</li>
-            <li><strong>Card + International Transfers:</strong> 31.04% adoption (71,272 users) - Highest retention</li>
-            <li><strong>Card + Top-Ups:</strong> 22.5% adoption (51,744 users)</li>
-            <li><strong>Card + Direct Deposit:</strong> 20.64% adoption (47,403 users)</li>
-        </ul>
+    <!-- D3 Chart: Product Bundle Performance -->
+    <div class="chart-container">
+        <div class="chart-title">💼 Product Bundle Adoption & Retention</div>
+        <div id="productBundleChart"></div>
     </div>
 
     <div class="insight-box">
-        <strong>Insight:</strong> Customers using Card + International Transfers show the highest retention at 29.4% staying 6+ months. Product bundling is a critical driver of customer lifetime value. Multi-product users have 40% higher retention than single-product users.
+        <strong>Insight:</strong> Customers using Card + International Transfers show the highest retention at 29.4% staying 6+ months. Product bundling is a critical driver of customer lifetime value - multi-product users have 40% higher retention.
     </div>
 </section>
 
@@ -1063,53 +938,10 @@
         </div>
     </div>
 
-    <div class="content-box">
-        <h3>Budget Allocation by Channel</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Channel</th>
-                    <th>Budget</th>
-                    <th>% of Total</th>
-                    <th>CPA Target</th>
-                    <th>Target Customers</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>👥 Boots on Ground</strong></td>
-                    <td>$258K</td>
-                    <td>50%</td>
-                    <td>$55</td>
-                    <td>4,691</td>
-                </tr>
-                <tr>
-                    <td><strong>💻 Digital Ads</strong></td>
-                    <td>$207K</td>
-                    <td>40%</td>
-                    <td>$40-45</td>
-                    <td>4,600</td>
-                </tr>
-                <tr>
-                    <td><strong>📻 Traditional</strong></td>
-                    <td>$51K</td>
-                    <td>10%</td>
-                    <td>$40-45</td>
-                    <td>1,133</td>
-                </tr>
-                <tr>
-                    <td><strong>💰 Incentives</strong></td>
-                    <td>$84K</td>
-                    <td>-</td>
-                    <td>$30 per customer</td>
-                    <td>28% activation</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="insight-box">
-        <strong>Strategy:</strong> Increased Boots allocation (50%) for stability and predictable performance at fixed $55 CPA. Digital (40%) focused on highest-ROI campaigns. Traditional (10%) maintains minimal brand presence. 70% budget reduction from $2M to $600K/month.
+    <!-- D3 Chart: Budget Allocation -->
+    <div class="chart-container">
+        <div class="chart-title">💵 Budget Allocation by Channel</div>
+        <div id="budgetAllocationChart"></div>
     </div>
 </section>
 
@@ -1121,182 +953,14 @@
         <p class="section-subtitle">Multi-channel strategy with focus on efficiency and scale</p>
     </div>
 
-    <div class="content-box">
-        <h3>Channel Strategy Rationale</h3>
-        <ul>
-            <li><strong>Boots (50%):</strong> Increased for stability and predictable performance at fixed $55 CPA - proven to work in Hispanic communities with personal touch</li>
-            <li><strong>Digital (40%):</strong> Focused on highest-ROI campaigns with $40-45 CAC target - leveraging Facebook, Instagram, Google, TikTok</li>
-            <li><strong>Traditional (10%):</strong> Maintains minimal brand presence at $51K monthly - radio, OOH in key markets</li>
-            <li><strong>Referral Program:</strong> Low-cost acquisition through word-of-mouth, targeting 10-30% conversion rate on invites</li>
-            <li><strong>Organic (App Store):</strong> Free acquisition through app store optimization and discovery</li>
-        </ul>
-    </div>
-
-    <div class="content-box">
-        <h3>Before & After Comparison</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Metric</th>
-                    <th>Before</th>
-                    <th>After</th>
-                    <th>Change</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Budget</strong></td>
-                    <td>$2M</td>
-                    <td>$600K</td>
-                    <td style="color: #ff6b6b; font-weight: 700;">-70%</td>
-                </tr>
-                <tr>
-                    <td><strong>Boots Allocation</strong></td>
-                    <td>30%</td>
-                    <td>50%</td>
-                    <td style="color: var(--primary-green); font-weight: 700;">+20pp</td>
-                </tr>
-                <tr>
-                    <td><strong>Digital Allocation</strong></td>
-                    <td>52%</td>
-                    <td>40%</td>
-                    <td style="color: #ff6b6b; font-weight: 700;">-12pp</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</section>
-
-<!-- Strategic Insights -->
-<section id="strategy-insights" class="content-section">
-    <div class="section-header">
-        <span class="section-number">Strategy</span>
-        <h1 class="section-title">Key Strategic Insights</h1>
-        <p class="section-subtitle">Data-driven recommendations for growth and optimization</p>
-    </div>
-
-    <div class="content-box">
-        <h3>🎯 What's Working Well</h3>
-        <ul>
-            <li><strong>Paid Advertising Efficiency:</strong> $41.40 CPA is 40% better than industry average - continue optimizing top-performing campaigns</li>
-            <li><strong>Conversion Funnel:</strong> 35% end-to-end conversion rate exceeds 30% KPI - strong product-market fit</li>
-            <li><strong>Influencer Marketing Scale:</strong> 100M+ views across 1,034 videos demonstrates massive reach in Hispanic communities</li>
-            <li><strong>Customer Retention:</strong> 8.37 month average retention with Diamond customers staying 13.51 months shows strong stickiness</li>
-            <li><strong>Multi-Product Adoption:</strong> Card + International Transfers bundle drives 29.4% retention at 6+ months</li>
-        </ul>
-    </div>
-
-    <div class="content-box">
-        <h3>⚠️ Areas for Improvement</h3>
-        <ul>
-            <li><strong>Influencer Engagement Drop:</strong> 2025 engagement rate (0.83%) down 80% from 2024 (4.13%) - needs investigation and strategy pivot</li>
-            <li><strong>YouTube Underutilization:</strong> Only 1% of influencer content on YouTube - missing long-form educational opportunity</li>
-            <li><strong>Pearl Segment Activation:</strong> 33% of customers in lowest tier (Pearl) - opportunity to move up-market with targeted campaigns</li>
-            <li><strong>Geographic Expansion:</strong> Strong in Venezuela/Mexico but untapped potential in Colombia, Peru, Ecuador markets</li>
-        </ul>
+    <!-- D3 Chart: Before/After Comparison -->
+    <div class="chart-container">
+        <div class="chart-title">📊 Budget Reallocation: Before vs After</div>
+        <div id="beforeAfterChart"></div>
     </div>
 
     <div class="insight-box">
-        <strong>Recommendation:</strong> Double down on paid ads efficiency while fixing influencer engagement. Expand YouTube strategy for evergreen content. Focus on upgrading Pearl customers through direct deposit and remittance incentives. Test geo-expansion in Colombia/Peru with localized boots teams.
-    </div>
-</section>
-
-<!-- October Overview -->
-<section id="october-overview" class="content-section">
-    <div class="section-header">
-        <span class="section-number">October 2025</span>
-        <h1 class="section-title">October Deep Dive</h1>
-        <p class="section-subtitle">Comprehensive analysis framework for monthly performance</p>
-    </div>
-
-    <div class="content-box">
-        <h3>Analysis Framework - 11 Key Areas</h3>
-        <ul>
-            <li><strong>User Metrics:</strong> MAU, DAU, new signups, churn analysis</li>
-            <li><strong>Transaction Metrics:</strong> Card spend, BambuPay volume, remittances, P2P</li>
-            <li><strong>Revenue Analysis:</strong> Interchange, fees, revenue per user (RPU)</li>
-            <li><strong>BambuPay Performance:</strong> Active users, activation rate, transaction trends</li>
-            <li><strong>Card Performance:</strong> Activation rates, spend patterns, merchant categories</li>
-            <li><strong>Remittances:</strong> Corridor analysis, pricing optimization, competitive positioning</li>
-            <li><strong>Marketing & Acquisition:</strong> New signups, CAC by channel, referral program</li>
-            <li><strong>Product Adoption:</strong> Multi-product usage, cross-sell success</li>
-            <li><strong>Risk & Compliance:</strong> Fraud rates, chargebacks, KYC approval rates</li>
-            <li><strong>Customer Support:</strong> Ticket volume, resolution time, satisfaction scores</li>
-            <li><strong>Strategic Analysis:</strong> MoM/YoY comparisons, cohort retention, target achievement</li>
-        </ul>
-    </div>
-</section>
-
-<!-- October Acquisition -->
-<section id="october-acquisition" class="content-section">
-    <div class="section-header">
-        <span class="section-number">Acquisition Analysis</span>
-        <h1 class="section-title">October Marketing & Acquisition</h1>
-        <p class="section-subtitle">New user acquisition, channel effectiveness, and campaign ROI</p>
-    </div>
-
-    <div class="content-box">
-        <h3>Key Metrics to Track</h3>
-        <ul>
-            <li><strong>Total New Signups:</strong> Users who started registration process</li>
-            <li><strong>Completed Registrations:</strong> Users who finished signup (target: 60-75% completion rate)</li>
-            <li><strong>Net New Active Users:</strong> Completed signup + made first transaction</li>
-            <li><strong>Signup Funnel Drop-offs:</strong> Where users abandon (email verification, KYC, bank setup)</li>
-        </ul>
-    </div>
-
-    <div class="content-box">
-        <h3>Acquisition Source Breakdown</h3>
-        <ul>
-            <li><strong>Organic:</strong> Word of mouth, direct traffic ($0 CAC)</li>
-            <li><strong>Referral Program:</strong> Existing users inviting friends (target: 10-30% conversion)</li>
-            <li><strong>Paid Advertising:</strong> Google, Facebook/Instagram, TikTok, YouTube</li>
-            <li><strong>App Store Discovery:</strong> iOS App Store, Google Play Store organic</li>
-            <li><strong>Social Media:</strong> Organic reach on social platforms</li>
-            <li><strong>Partner Referrals:</strong> Strategic partnerships and co-marketing</li>
-            <li><strong>Email Campaigns:</strong> Targeted email marketing to prospects</li>
-        </ul>
-    </div>
-
-    <div class="insight-box">
-        <strong>Analysis Framework:</strong> Compare October acquisition metrics vs September (MoM) and vs October 2024 (YoY). Identify highest volume channel, most cost-effective channel, highest conversion rate, and fastest-growing channel. Target: Average CAC <$50, Signup completion rate >60%.
-    </div>
-</section>
-
-<!-- October Recommendations -->
-<section id="october-recommendations" class="content-section">
-    <div class="section-header">
-        <span class="section-number">Action Plan</span>
-        <h1 class="section-title">November 2025 Recommendations</h1>
-        <p class="section-subtitle">Data-driven initiatives to amplify impact and drive growth</p>
-    </div>
-
-    <div class="content-box">
-        <h3>Priority Initiatives for November</h3>
-        <ul>
-            <li><strong>Tier 1 (Critical):</strong> Fix influencer engagement decline - audit content quality, test new creator partnerships, increase TikTok focus from 26% to 40%</li>
-            <li><strong>Tier 1 (Critical):</strong> Maintain paid ads efficiency - scale winning campaigns, pause underperformers, test new creative variants</li>
-            <li><strong>Tier 2 (Important):</strong> Upgrade Pearl customers - targeted campaigns for direct deposit adoption, remittance incentives, product bundling</li>
-            <li><strong>Tier 2 (Important):</strong> Geographic expansion testing - pilot boots teams in Colombia/Peru, localized influencer partnerships</li>
-            <li><strong>Tier 3 (Nice to Have):</strong> YouTube long-form strategy - partner with influencers for 8-15 minute educational videos, SEO optimization</li>
-            <li><strong>Tier 3 (Nice to Have):</strong> Brand Ambassador Program - select 10-15 top performers as official ambassadors with 12-month contracts</li>
-        </ul>
-    </div>
-
-    <div class="content-box">
-        <h3>Success Metrics for November</h3>
-        <ul>
-            <li>Achieve 10,400+ customers at $45 CAC (baseline scenario)</li>
-            <li>Digital CAC stays below $45</li>
-            <li>Boots delivers 4,691 customers with quality</li>
-            <li>Blended CAC below $60</li>
-            <li>Influencer engagement rate improves to 2%+ (from 0.83%)</li>
-            <li>Pearl-to-Ruby segment upgrades: 5% of Pearl base</li>
-        </ul>
-    </div>
-
-    <div class="insight-box">
-        <strong>Executive Summary:</strong> MyBambu demonstrates strong fundamentals with best-in-class paid advertising efficiency ($41.40 CPA vs $65-85 industry), exceptional customer retention (8.37 months avg), and massive influencer reach (100M+ views). Key focus areas: fix influencer engagement decline, maintain paid ads efficiency, upgrade lower-tier customers, and test geographic expansion. With disciplined execution, November can deliver 10,400+ new customers within budget.
+        <strong>Strategy:</strong> Increased Boots allocation (50%) for stability and predictable performance at fixed $55 CPA. Digital (40%) focused on highest-ROI campaigns. 70% budget reduction from $2M to $600K/month while maintaining acquisition targets through efficiency gains.
     </div>
 </section>
 
@@ -1306,42 +970,62 @@
 <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</div>
 
 <script>
+// Configuration
+const colors = {
+    primary: '#27FB6B',
+    primaryDark: '#00052E',
+    secondary: '#0066FF',
+    gray: '#6B7280',
+    lightGray: '#E5E7EB',
+    red: '#ff6b6b',
+    yellow: '#FFD700',
+    purple: '#8b5cf6'
+};
+
+// Tooltip
+const tooltip = d3.select('#tooltip');
+
+function showTooltip(event, html) {
+    tooltip.style('opacity', 1)
+        .html(html)
+        .style('left', (event.pageX + 10) + 'px')
+        .style('top', (event.pageY - 10) + 'px');
+}
+
+function hideTooltip() {
+    tooltip.style('opacity', 0);
+}
+
 // Navigation
 function showSection(sectionId) {
-    // Hide all sections
     document.querySelectorAll('.content-section').forEach(section => {
         section.classList.remove('active');
     });
-
-    // Show selected section
     document.getElementById(sectionId).classList.add('active');
 
-    // Update active nav item
     document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.remove('active');
     });
     event.target.classList.add('active');
 
-    // Scroll to top of main content
     document.querySelector('.main-content').scrollTop = 0;
 
-    // Close mobile sidebar
     if (window.innerWidth <= 1024) {
         document.getElementById('sidebar').classList.remove('active');
     }
+
+    // Initialize D3 charts when section becomes visible
+    setTimeout(() => initChartsForSection(sectionId), 100);
 }
 
-// Mobile sidebar toggle
 function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('active');
 }
 
-// Scroll to top
 function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Show/hide scroll to top button
 window.addEventListener('scroll', () => {
     const scrollTop = document.getElementById('scrollTop');
     if (window.pageYOffset > 300) {
@@ -1351,17 +1035,1026 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Close sidebar when clicking outside on mobile
-document.addEventListener('click', (e) => {
-    const sidebar = document.getElementById('sidebar');
-    const menuToggle = document.querySelector('.menu-toggle');
-
-    if (window.innerWidth <= 1024 &&
-        !sidebar.contains(e.target) &&
-        !menuToggle.contains(e.target) &&
-        sidebar.classList.contains('active')) {
-        sidebar.classList.remove('active');
+// D3 Chart Functions
+function initChartsForSection(sectionId) {
+    switch(sectionId) {
+        case 'influencer-overview':
+            createYoYGrowthChart();
+            break;
+        case 'influencer-performance':
+            createEngagementDonutChart();
+            break;
+        case 'influencer-platforms':
+            createPlatformChart();
+            break;
+        case 'influencer-creators':
+            createTopCreatorsChart();
+            break;
+        case 'paid-ads-q3':
+            createTargetAchievementChart();
+            break;
+        case 'paid-ads-conversion':
+            createConversionTrendChart();
+            break;
+        case 'paid-ads-trends':
+            createCPATrendChart();
+            break;
+        case 'customer-segments':
+            createCustomerSegmentsChart();
+            createSegmentRetentionChart();
+            break;
+        case 'customer-retention':
+            createProductBundleChart();
+            break;
+        case 'marketing-budget':
+            createBudgetAllocationChart();
+            break;
+        case 'acquisition-channels':
+            createBeforeAfterChart();
+            break;
     }
+}
+
+// Year-over-Year Growth Chart
+function createYoYGrowthChart() {
+    const container = d3.select('#yoyGrowthChart');
+    container.selectAll('*').remove();
+
+    const data = [
+        { year: '2024', videos: 432, views: 38.8, engagements: 1.6 },
+        { year: '2025 (Jan-Oct)', videos: 602, views: 60.4, engagements: 0.5 }
+    ];
+
+    const margin = { top: 20, right: 30, bottom: 60, left: 80 };
+    const width = 800 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    const svg = container.append('svg')
+        .attr('width', '100%')
+        .attr('height', height + margin.top + margin.bottom)
+        .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    const x = d3.scaleBand()
+        .domain(data.map(d => d.year))
+        .range([0, width])
+        .padding(0.3);
+
+    const y = d3.scaleLinear()
+        .domain([0, d3.max(data, d => Math.max(d.videos, d.views))])
+        .range([height, 0]);
+
+    // Bars for Videos
+    svg.selectAll('.bar-videos')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d.year))
+        .attr('width', x.bandwidth() / 3)
+        .attr('y', height)
+        .attr('height', 0)
+        .attr('fill', colors.primary)
+        .on('mouseover', (event, d) => showTooltip(event, `<strong>${d.year}</strong><br>Videos: ${d.videos}`))
+        .on('mouseout', hideTooltip)
+        .transition()
+        .duration(1000)
+        .attr('y', d => y(d.videos))
+        .attr('height', d => height - y(d.videos));
+
+    // Bars for Views (in millions)
+    svg.selectAll('.bar-views')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d.year) + x.bandwidth() / 3)
+        .attr('width', x.bandwidth() / 3)
+        .attr('y', height)
+        .attr('height', 0)
+        .attr('fill', colors.secondary)
+        .on('mouseover', (event, d) => showTooltip(event, `<strong>${d.year}</strong><br>Views: ${d.views}M`))
+        .on('mouseout', hideTooltip)
+        .transition()
+        .duration(1000)
+        .delay(200)
+        .attr('y', d => y(d.views))
+        .attr('height', d => height - y(d.views));
+
+    // Axes
+    svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x))
+        .attr('class', 'axis');
+
+    svg.append('g')
+        .call(d3.axisLeft(y))
+        .attr('class', 'axis');
+
+    // Legend
+    const legend = svg.append('g')
+        .attr('transform', `translate(${width - 150}, 10)`);
+
+    legend.append('rect').attr('width', 15).attr('height', 15).attr('fill', colors.primary);
+    legend.append('text').attr('x', 20).attr('y', 12).text('Videos').style('font-size', '12px').attr('fill', colors.gray);
+
+    legend.append('rect').attr('y', 20).attr('width', 15).attr('height', 15).attr('fill', colors.secondary);
+    legend.append('text').attr('x', 20).attr('y', 32).text('Views (M)').style('font-size', '12px').attr('fill', colors.gray);
+}
+
+// Engagement Donut Chart
+function createEngagementDonutChart() {
+    const container = d3.select('#engagementDonutChart');
+    container.selectAll('*').remove();
+
+    const data = [
+        { label: 'Likes', value: 1453096 },
+        { label: 'Shares', value: 65059 },
+        { label: 'Saves', value: 49912 },
+        { label: 'Comments', value: 30825 }
+    ];
+
+    const width = 500;
+    const height = 500;
+    const radius = Math.min(width, height) / 2;
+
+    const svg = container.append('svg')
+        .attr('width', '100%')
+        .attr('height', height)
+        .attr('viewBox', `0 0 ${width} ${height}`)
+        .append('g')
+        .attr('transform', `translate(${width / 2},${height / 2})`);
+
+    const color = d3.scaleOrdinal()
+        .domain(data.map(d => d.label))
+        .range([colors.primary, colors.secondary, colors.purple, colors.yellow]);
+
+    const pie = d3.pie()
+        .value(d => d.value)
+        .sort(null);
+
+    const arc = d3.arc()
+        .innerRadius(radius * 0.6)
+        .outerRadius(radius * 0.9);
+
+    const arcs = svg.selectAll('arc')
+        .data(pie(data))
+        .enter().append('g');
+
+    arcs.append('path')
+        .attr('d', arc)
+        .attr('fill', d => color(d.data.label))
+        .attr('stroke', 'white')
+        .style('stroke-width', '3px')
+        .style('opacity', 0.8)
+        .on('mouseover', function(event, d) {
+            d3.select(this).style('opacity', 1);
+            showTooltip(event, `<strong>${d.data.label}</strong><br>${d.data.value.toLocaleString()}`);
+        })
+        .on('mouseout', function() {
+            d3.select(this).style('opacity', 0.8);
+            hideTooltip();
+        });
+
+    // Center text
+    svg.append('text')
+        .attr('text-anchor', 'middle')
+        .attr('y', -10)
+        .style('font-size', '24px')
+        .style('font-weight', '900')
+        .attr('fill', colors.primaryDark)
+        .text('1.6M');
+
+    svg.append('text')
+        .attr('text-anchor', 'middle')
+        .attr('y', 15)
+        .style('font-size', '14px')
+        .attr('fill', colors.gray)
+        .text('Total Engagements');
+}
+
+// Platform Distribution Chart
+function createPlatformChart() {
+    const container = d3.select('#platformChart');
+    container.selectAll('*').remove();
+
+    const data = [
+        { platform: 'Instagram', videos: 264, percentage: 61 },
+        { platform: 'TikTok', videos: 114, percentage: 26 },
+        { platform: 'Facebook', videos: 51, percentage: 12 },
+        { platform: 'YouTube', videos: 3, percentage: 1 }
+    ];
+
+    const margin = { top: 20, right: 30, bottom: 60, left: 120 };
+    const width = 800 - margin.left - margin.right;
+    const height = 350 - margin.top - margin.bottom;
+
+    const svg = container.append('svg')
+        .attr('width', '100%')
+        .attr('height', height + margin.top + margin.bottom)
+        .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    const x = d3.scaleLinear()
+        .domain([0, 70])
+        .range([0, width]);
+
+    const y = d3.scaleBand()
+        .domain(data.map(d => d.platform))
+        .range([0, height])
+        .padding(0.2);
+
+    svg.selectAll('.bar')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', 0)
+        .attr('y', d => y(d.platform))
+        .attr('width', 0)
+        .attr('height', y.bandwidth())
+        .attr('fill', colors.primary)
+        .on('mouseover', (event, d) => showTooltip(event, `<strong>${d.platform}</strong><br>${d.videos} videos (${d.percentage}%)`))
+        .on('mouseout', hideTooltip)
+        .transition()
+        .duration(1000)
+        .attr('width', d => x(d.percentage));
+
+    // Add percentage labels
+    svg.selectAll('.label')
+        .data(data)
+        .enter().append('text')
+        .attr('class', 'label')
+        .attr('x', d => x(d.percentage) + 10)
+        .attr('y', d => y(d.platform) + y.bandwidth() / 2)
+        .attr('dy', '0.35em')
+        .style('font-size', '16px')
+        .style('font-weight', '700')
+        .attr('fill', colors.primaryDark)
+        .text(d => `${d.percentage}%`);
+
+    svg.append('g')
+        .call(d3.axisLeft(y))
+        .attr('class', 'axis');
+}
+
+// Top Creators Chart
+function createTopCreatorsChart() {
+    const container = d3.select('#topCreatorsChart');
+    container.selectAll('*').remove();
+
+    const data = [
+        { name: 'Antonia Botero', views: 10378400 },
+        { name: 'Hormazatv', views: 4423700 },
+        { name: 'Yoaibimar Daal Daal', views: 3522300 },
+        { name: 'Antonia Botero y Xavi', views: 1735000 },
+        { name: 'Nati Show', views: 1457110 },
+        { name: 'Cristina Rivera', views: 1234000 },
+        { name: 'Tino Sueno', views: 987000 },
+        { name: 'Camila Sweet', views: 876000 },
+        { name: 'Estaban Love', views: 654000 },
+        { name: 'Laura Latina', views: 543000 }
+    ];
+
+    const margin = { top: 20, right: 30, bottom: 60, left: 180 };
+    const width = 900 - margin.left - margin.right;
+    const height = 500 - margin.top - margin.bottom;
+
+    const svg = container.append('svg')
+        .attr('width', '100%')
+        .attr('height', height + margin.top + margin.bottom)
+        .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    const x = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.views)])
+        .range([0, width]);
+
+    const y = d3.scaleBand()
+        .domain(data.map(d => d.name))
+        .range([0, height])
+        .padding(0.2);
+
+    const colorScale = d3.scaleOrdinal()
+        .domain([0, 1, 2])
+        .range(['#FFD700', '#C0C0C0', '#CD7F32']);
+
+    svg.selectAll('.bar')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', 0)
+        .attr('y', d => y(d.name))
+        .attr('width', 0)
+        .attr('height', y.bandwidth())
+        .attr('fill', (d, i) => i < 3 ? colorScale(i) : colors.primary)
+        .on('mouseover', (event, d) => showTooltip(event, `<strong>${d.name}</strong><br>${d.views.toLocaleString()} views`))
+        .on('mouseout', hideTooltip)
+        .transition()
+        .duration(1000)
+        .delay((d, i) => i * 100)
+        .attr('width', d => x(d.views));
+
+    svg.append('g')
+        .call(d3.axisLeft(y))
+        .attr('class', 'axis');
+}
+
+// Target Achievement Chart
+function createTargetAchievementChart() {
+    const container = d3.select('#targetAchievementChart');
+    container.selectAll('*').remove();
+
+    const data = [
+        { category: 'Goal', value: 92837, color: colors.gray },
+        { category: 'Achieved', value: 112965, color: colors.primary }
+    ];
+
+    const margin = { top: 20, right: 30, bottom: 60, left: 80 };
+    const width = 600 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    const svg = container.append('svg')
+        .attr('width', '100%')
+        .attr('height', height + margin.top + margin.bottom)
+        .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    const x = d3.scaleBand()
+        .domain(data.map(d => d.category))
+        .range([0, width])
+        .padding(0.3);
+
+    const y = d3.scaleLinear()
+        .domain([0, 120000])
+        .range([height, 0]);
+
+    svg.selectAll('.bar')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d.category))
+        .attr('width', x.bandwidth())
+        .attr('y', height)
+        .attr('height', 0)
+        .attr('fill', d => d.color)
+        .on('mouseover', (event, d) => showTooltip(event, `<strong>${d.category}</strong><br>${d.value.toLocaleString()} accounts`))
+        .on('mouseout', hideTooltip)
+        .transition()
+        .duration(1000)
+        .attr('y', d => y(d.value))
+        .attr('height', d => height - y(d.value));
+
+    // Add value labels on bars
+    svg.selectAll('.label')
+        .data(data)
+        .enter().append('text')
+        .attr('x', d => x(d.category) + x.bandwidth() / 2)
+        .attr('y', d => y(d.value) - 10)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '18px')
+        .style('font-weight', '900')
+        .attr('fill', colors.primaryDark)
+        .text(d => d.value.toLocaleString());
+
+    svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x))
+        .attr('class', 'axis');
+
+    svg.append('g')
+        .call(d3.axisLeft(y).tickFormat(d => (d/1000) + 'K'))
+        .attr('class', 'axis');
+}
+
+// Conversion Trend Chart
+function createConversionTrendChart() {
+    const container = d3.select('#conversionTrendChart');
+    container.selectAll('*').remove();
+
+    const data = [
+        { month: 'July', rate: 28 },
+        { month: 'August', rate: 31 },
+        { month: 'September', rate: 35 }
+    ];
+
+    const margin = { top: 40, right: 30, bottom: 60, left: 60 };
+    const width = 700 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    const svg = container.append('svg')
+        .attr('width', '100%')
+        .attr('height', height + margin.top + margin.bottom)
+        .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    const x = d3.scalePoint()
+        .domain(data.map(d => d.month))
+        .range([0, width]);
+
+    const y = d3.scaleLinear()
+        .domain([0, 40])
+        .range([height, 0]);
+
+    const line = d3.line()
+        .x(d => x(d.month))
+        .y(d => y(d.rate))
+        .curve(d3.curveMonotoneX);
+
+    // Draw line
+    const path = svg.append('path')
+        .datum(data)
+        .attr('class', 'line')
+        .attr('d', line)
+        .attr('stroke', colors.primary)
+        .attr('stroke-width', 4);
+
+    const pathLength = path.node().getTotalLength();
+    path.attr('stroke-dasharray', pathLength)
+        .attr('stroke-dashoffset', pathLength)
+        .transition()
+        .duration(2000)
+        .attr('stroke-dashoffset', 0);
+
+    // Add dots
+    svg.selectAll('.dot')
+        .data(data)
+        .enter().append('circle')
+        .attr('class', 'dot')
+        .attr('cx', d => x(d.month))
+        .attr('cy', d => y(d.rate))
+        .attr('r', 0)
+        .attr('fill', colors.primary)
+        .attr('stroke', 'white')
+        .attr('stroke-width', 3)
+        .on('mouseover', (event, d) => showTooltip(event, `<strong>${d.month}</strong><br>${d.rate}% conversion`))
+        .on('mouseout', hideTooltip)
+        .transition()
+        .duration(1000)
+        .delay((d, i) => i * 300)
+        .attr('r', 8);
+
+    // Add KPI line
+    svg.append('line')
+        .attr('x1', 0)
+        .attr('x2', width)
+        .attr('y1', y(30))
+        .attr('y2', y(30))
+        .attr('stroke', colors.red)
+        .attr('stroke-width', 2)
+        .attr('stroke-dasharray', '5,5');
+
+    svg.append('text')
+        .attr('x', width - 80)
+        .attr('y', y(30) - 10)
+        .style('font-size', '12px')
+        .attr('fill', colors.red)
+        .text('30% KPI Target');
+
+    svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x))
+        .attr('class', 'axis');
+
+    svg.append('g')
+        .call(d3.axisLeft(y).tickFormat(d => d + '%'))
+        .attr('class', 'axis');
+}
+
+// CPA Trend Chart
+function createCPATrendChart() {
+    const container = d3.select('#cpaTrendChart');
+    container.selectAll('*').remove();
+
+    const data = [
+        { month: 'Jan', mybambu: 43, industry: 75 },
+        { month: 'Feb', mybambu: 44, industry: 75 },
+        { month: 'Mar', mybambu: 45, industry: 75 },
+        { month: 'Apr', mybambu: 47, industry: 75 },
+        { month: 'May', mybambu: 50, industry: 75 },
+        { month: 'Jun', mybambu: 56, industry: 75 },
+        { month: 'Jul', mybambu: 50.82, industry: 75 },
+        { month: 'Aug', mybambu: 52.07, industry: 75 },
+        { month: 'Sep', mybambu: 42.30, industry: 75 }
+    ];
+
+    const margin = { top: 40, right: 30, bottom: 60, left: 60 };
+    const width = 900 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    const svg = container.append('svg')
+        .attr('width', '100%')
+        .attr('height', height + margin.top + margin.bottom)
+        .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    const x = d3.scalePoint()
+        .domain(data.map(d => d.month))
+        .range([0, width]);
+
+    const y = d3.scaleLinear()
+        .domain([0, 90])
+        .range([height, 0]);
+
+    const lineMyBambu = d3.line()
+        .x(d => x(d.month))
+        .y(d => y(d.mybambu))
+        .curve(d3.curveMonotoneX);
+
+    const lineIndustry = d3.line()
+        .x(d => x(d.month))
+        .y(d => y(d.industry));
+
+    // Industry average line
+    svg.append('path')
+        .datum(data)
+        .attr('class', 'line')
+        .attr('d', lineIndustry)
+        .attr('stroke', colors.red)
+        .attr('stroke-width', 2)
+        .attr('stroke-dasharray', '5,5')
+        .attr('opacity', 0.6);
+
+    // MyBambu line
+    const pathMyBambu = svg.append('path')
+        .datum(data)
+        .attr('class', 'line')
+        .attr('d', lineMyBambu)
+        .attr('stroke', colors.primary)
+        .attr('stroke-width', 4);
+
+    const pathLength = pathMyBambu.node().getTotalLength();
+    pathMyBambu.attr('stroke-dasharray', pathLength)
+        .attr('stroke-dashoffset', pathLength)
+        .transition()
+        .duration(2000)
+        .attr('stroke-dashoffset', 0);
+
+    // Add dots for MyBambu
+    svg.selectAll('.dot')
+        .data(data)
+        .enter().append('circle')
+        .attr('class', 'dot')
+        .attr('cx', d => x(d.month))
+        .attr('cy', d => y(d.mybambu))
+        .attr('r', 6)
+        .attr('fill', colors.primary)
+        .attr('stroke', 'white')
+        .attr('stroke-width', 2)
+        .on('mouseover', (event, d) => showTooltip(event, `<strong>${d.month}</strong><br>MyBambu: $${d.mybambu.toFixed(2)}<br>Industry: $${d.industry}`))
+        .on('mouseout', hideTooltip);
+
+    // Legend
+    const legend = svg.append('g')
+        .attr('transform', `translate(${width - 180}, 10)`);
+
+    legend.append('line').attr('x1', 0).attr('x2', 30).attr('y1', 0).attr('y2', 0).attr('stroke', colors.primary).attr('stroke-width', 3);
+    legend.append('text').attr('x', 40).attr('y', 5).text('MyBambu CPA').style('font-size', '12px').attr('fill', colors.gray);
+
+    legend.append('line').attr('x1', 0).attr('x2', 30).attr('y1', 20).attr('y2', 20).attr('stroke', colors.red).attr('stroke-width', 2).attr('stroke-dasharray', '5,5');
+    legend.append('text').attr('x', 40).attr('y', 25).text('Industry Avg').style('font-size', '12px').attr('fill', colors.gray);
+
+    svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x))
+        .attr('class', 'axis');
+
+    svg.append('g')
+        .call(d3.axisLeft(y).tickFormat(d => '$' + d))
+        .attr('class', 'axis');
+}
+
+// Customer Segments Distribution Chart
+function createCustomerSegmentsChart() {
+    const container = d3.select('#customerSegmentsChart');
+    container.selectAll('*').remove();
+
+    const data = [
+        { segment: '💎 Diamond', customers: 18447, percentage: 8.58 },
+        { segment: '💚 Emerald', customers: 34721, percentage: 16.16 },
+        { segment: '💙 Sapphire', customers: 49383, percentage: 22.99 },
+        { segment: '🔷 Ruby', customers: 40886, percentage: 19.03 },
+        { segment: '⚪ Pearl', customers: 71415, percentage: 33.24 }
+    ];
+
+    const width = 550;
+    const height = 550;
+    const radius = Math.min(width, height) / 2;
+
+    const svg = container.append('svg')
+        .attr('width', '100%')
+        .attr('height', height)
+        .attr('viewBox', `0 0 ${width} ${height}`)
+        .append('g')
+        .attr('transform', `translate(${width / 2},${height / 2})`);
+
+    const color = d3.scaleOrdinal()
+        .domain(data.map(d => d.segment))
+        .range(['#60A5FA', '#34D399', '#F87171', '#38BDF8', '#4ADE80']);
+
+    const pie = d3.pie()
+        .value(d => d.customers)
+        .sort(null);
+
+    const arc = d3.arc()
+        .innerRadius(radius * 0.5)
+        .outerRadius(radius * 0.85);
+
+    const arcs = svg.selectAll('arc')
+        .data(pie(data))
+        .enter().append('g');
+
+    arcs.append('path')
+        .attr('d', arc)
+        .attr('fill', d => color(d.data.segment))
+        .attr('stroke', 'white')
+        .style('stroke-width', '3px')
+        .style('opacity', 0.85)
+        .on('mouseover', function(event, d) {
+            d3.select(this).style('opacity', 1);
+            showTooltip(event, `<strong>${d.data.segment}</strong><br>${d.data.customers.toLocaleString()} customers (${d.data.percentage}%)`);
+        })
+        .on('mouseout', function() {
+            d3.select(this).style('opacity', 0.85);
+            hideTooltip();
+        });
+
+    // Add labels
+    arcs.append('text')
+        .attr('transform', d => `translate(${arc.centroid(d)})`)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '14px')
+        .style('font-weight', '700')
+        .attr('fill', 'white')
+        .text(d => d.data.percentage + '%');
+}
+
+// Segment Retention Chart
+function createSegmentRetentionChart() {
+    const container = d3.select('#segmentRetentionChart');
+    container.selectAll('*').remove();
+
+    const data = [
+        { segment: 'Diamond', retention: 13.51, revenue: 30.60 },
+        { segment: 'Emerald', retention: 11.35, revenue: 13.96 },
+        { segment: 'Sapphire', retention: 9.23, revenue: 6.18 },
+        { segment: 'Ruby', retention: 7.7, revenue: 3.12 },
+        { segment: 'Pearl', retention: 4.64, revenue: 2.08 }
+    ];
+
+    const margin = { top: 40, right: 60, bottom: 60, left: 80 };
+    const width = 800 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    const svg = container.append('svg')
+        .attr('width', '100%')
+        .attr('height', height + margin.top + margin.bottom)
+        .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    const x = d3.scaleBand()
+        .domain(data.map(d => d.segment))
+        .range([0, width])
+        .padding(0.2);
+
+    const y1 = d3.scaleLinear()
+        .domain([0, 15])
+        .range([height, 0]);
+
+    const y2 = d3.scaleLinear()
+        .domain([0, 35])
+        .range([height, 0]);
+
+    // Retention bars
+    svg.selectAll('.bar-retention')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d.segment))
+        .attr('width', x.bandwidth() / 2 - 5)
+        .attr('y', height)
+        .attr('height', 0)
+        .attr('fill', colors.primary)
+        .on('mouseover', (event, d) => showTooltip(event, `<strong>${d.segment}</strong><br>Retention: ${d.retention} months`))
+        .on('mouseout', hideTooltip)
+        .transition()
+        .duration(1000)
+        .attr('y', d => y1(d.retention))
+        .attr('height', d => height - y1(d.retention));
+
+    // Revenue bars
+    svg.selectAll('.bar-revenue')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d.segment) + x.bandwidth() / 2 + 5)
+        .attr('width', x.bandwidth() / 2 - 5)
+        .attr('y', height)
+        .attr('height', 0)
+        .attr('fill', colors.secondary)
+        .on('mouseover', (event, d) => showTooltip(event, `<strong>${d.segment}</strong><br>Revenue: $${d.revenue}/mo`))
+        .on('mouseout', hideTooltip)
+        .transition()
+        .duration(1000)
+        .delay(200)
+        .attr('y', d => y2(d.revenue))
+        .attr('height', d => height - y2(d.revenue));
+
+    svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x))
+        .attr('class', 'axis');
+
+    svg.append('g')
+        .call(d3.axisLeft(y1))
+        .attr('class', 'axis');
+
+    svg.append('g')
+        .attr('transform', `translate(${width}, 0)`)
+        .call(d3.axisRight(y2).tickFormat(d => '$' + d))
+        .attr('class', 'axis');
+
+    // Legend
+    const legend = svg.append('g')
+        .attr('transform', `translate(${width / 2 - 100}, -20)`);
+
+    legend.append('rect').attr('width', 15).attr('height', 15).attr('fill', colors.primary);
+    legend.append('text').attr('x', 20).attr('y', 12).text('Retention (months)').style('font-size', '12px').attr('fill', colors.gray);
+
+    legend.append('rect').attr('x', 160).attr('width', 15).attr('height', 15).attr('fill', colors.secondary);
+    legend.append('text').attr('x', 180).attr('y', 12).text('Revenue ($/mo)').style('font-size', '12px').attr('fill', colors.gray);
+}
+
+// Product Bundle Chart
+function createProductBundleChart() {
+    const container = d3.select('#productBundleChart');
+    container.selectAll('*').remove();
+
+    const data = [
+        { bundle: 'Card + Cash Loads', adoption: 56.0, retention: 28.5 },
+        { bundle: 'Card + Intl Transfers', adoption: 31.04, retention: 29.4 },
+        { bundle: 'Card + Top-Ups', adoption: 22.5, retention: 15.9 },
+        { bundle: 'Card + Direct Deposit', adoption: 20.64, retention: 20.0 }
+    ];
+
+    const margin = { top: 40, right: 60, bottom: 100, left: 100 };
+    const width = 900 - margin.left - margin.right;
+    const height = 450 - margin.top - margin.bottom;
+
+    const svg = container.append('svg')
+        .attr('width', '100%')
+        .attr('height', height + margin.top + margin.bottom)
+        .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    const x = d3.scaleBand()
+        .domain(data.map(d => d.bundle))
+        .range([0, width])
+        .padding(0.3);
+
+    const y = d3.scaleLinear()
+        .domain([0, 60])
+        .range([height, 0]);
+
+    // Adoption bars
+    svg.selectAll('.bar-adoption')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d.bundle))
+        .attr('width', x.bandwidth() / 2 - 3)
+        .attr('y', height)
+        .attr('height', 0)
+        .attr('fill', colors.primary)
+        .on('mouseover', (event, d) => showTooltip(event, `<strong>${d.bundle}</strong><br>Adoption: ${d.adoption}%`))
+        .on('mouseout', hideTooltip)
+        .transition()
+        .duration(1000)
+        .attr('y', d => y(d.adoption))
+        .attr('height', d => height - y(d.adoption));
+
+    // Retention bars
+    svg.selectAll('.bar-retention')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d.bundle) + x.bandwidth() / 2 + 3)
+        .attr('width', x.bandwidth() / 2 - 3)
+        .attr('y', height)
+        .attr('height', 0)
+        .attr('fill', colors.secondary)
+        .on('mouseover', (event, d) => showTooltip(event, `<strong>${d.bundle}</strong><br>6+ Month Retention: ${d.retention}%`))
+        .on('mouseout', hideTooltip)
+        .transition()
+        .duration(1000)
+        .delay(200)
+        .attr('y', d => y(d.retention))
+        .attr('height', d => height - y(d.retention));
+
+    svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x))
+        .attr('class', 'axis')
+        .selectAll('text')
+        .attr('transform', 'rotate(-45)')
+        .style('text-anchor', 'end');
+
+    svg.append('g')
+        .call(d3.axisLeft(y).tickFormat(d => d + '%'))
+        .attr('class', 'axis');
+
+    // Legend
+    const legend = svg.append('g')
+        .attr('transform', `translate(${width - 220}, -20)`);
+
+    legend.append('rect').attr('width', 15).attr('height', 15).attr('fill', colors.primary);
+    legend.append('text').attr('x', 20).attr('y', 12).text('Adoption Rate').style('font-size', '12px').attr('fill', colors.gray);
+
+    legend.append('rect').attr('x', 120).attr('width', 15).attr('height', 15).attr('fill', colors.secondary);
+    legend.append('text').attr('x', 140).attr('y', 12).text('Retention').style('font-size', '12px').attr('fill', colors.gray);
+}
+
+// Budget Allocation Chart
+function createBudgetAllocationChart() {
+    const container = d3.select('#budgetAllocationChart');
+    container.selectAll('*').remove();
+
+    const data = [
+        { channel: 'Boots on Ground', budget: 258000, percentage: 50 },
+        { channel: 'Digital Ads', budget: 207000, percentage: 40 },
+        { channel: 'Traditional Media', budget: 51000, percentage: 10 },
+        { channel: 'Incentives', budget: 84000, percentage: 0 }
+    ];
+
+    const width = 600;
+    const height = 600;
+    const radius = Math.min(width, height) / 2;
+
+    const svg = container.append('svg')
+        .attr('width', '100%')
+        .attr('height', height)
+        .attr('viewBox', `0 0 ${width} ${height}`)
+        .append('g')
+        .attr('transform', `translate(${width / 2},${height / 2})`);
+
+    const color = d3.scaleOrdinal()
+        .domain(data.map(d => d.channel))
+        .range([colors.primary, colors.secondary, colors.purple, colors.yellow]);
+
+    const pie = d3.pie()
+        .value(d => d.budget)
+        .sort(null);
+
+    const arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius * 0.8);
+
+    const arcs = svg.selectAll('arc')
+        .data(pie(data))
+        .enter().append('g');
+
+    arcs.append('path')
+        .attr('d', arc)
+        .attr('fill', d => color(d.data.channel))
+        .attr('stroke', 'white')
+        .style('stroke-width', '3px')
+        .style('opacity', 0.85)
+        .on('mouseover', function(event, d) {
+            d3.select(this).style('opacity', 1);
+            showTooltip(event, `<strong>${d.data.channel}</strong><br>$${(d.data.budget/1000).toFixed(0)}K (${d.data.percentage || (d.data.budget/600000*100).toFixed(0)}%)`);
+        })
+        .on('mouseout', function() {
+            d3.select(this).style('opacity', 0.85);
+            hideTooltip();
+        });
+
+    // Add labels
+    arcs.append('text')
+        .attr('transform', d => {
+            const pos = arc.centroid(d);
+            return `translate(${pos[0] * 1.3},${pos[1] * 1.3})`;
+        })
+        .attr('text-anchor', 'middle')
+        .style('font-size', '16px')
+        .style('font-weight', '700')
+        .attr('fill', colors.primaryDark)
+        .text(d => d.data.percentage ? d.data.percentage + '%' : '');
+
+    // Center text
+    svg.append('text')
+        .attr('text-anchor', 'middle')
+        .attr('y', -10)
+        .style('font-size', '32px')
+        .style('font-weight', '900')
+        .attr('fill', colors.primaryDark)
+        .text('$600K');
+
+    svg.append('text')
+        .attr('text-anchor', 'middle')
+        .attr('y', 20)
+        .style('font-size', '14px')
+        .attr('fill', colors.gray)
+        .text('Monthly Budget');
+}
+
+// Before/After Comparison Chart
+function createBeforeAfterChart() {
+    const container = d3.select('#beforeAfterChart');
+    container.selectAll('*').remove();
+
+    const data = [
+        { category: 'Boots', before: 30, after: 50 },
+        { category: 'Digital', before: 52, after: 40 },
+        { category: 'Traditional', before: 18, after: 10 }
+    ];
+
+    const margin = { top: 40, right: 30, bottom: 60, left: 100 };
+    const width = 800 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    const svg = container.append('svg')
+        .attr('width', '100%')
+        .attr('height', height + margin.top + margin.bottom)
+        .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    const x = d3.scaleBand()
+        .domain(data.map(d => d.category))
+        .range([0, width])
+        .padding(0.2);
+
+    const y = d3.scaleLinear()
+        .domain([0, 60])
+        .range([height, 0]);
+
+    // Before bars
+    svg.selectAll('.bar-before')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d.category))
+        .attr('width', x.bandwidth() / 2 - 5)
+        .attr('y', height)
+        .attr('height', 0)
+        .attr('fill', colors.gray)
+        .on('mouseover', (event, d) => showTooltip(event, `<strong>${d.category} - Before</strong><br>${d.before}%`))
+        .on('mouseout', hideTooltip)
+        .transition()
+        .duration(1000)
+        .attr('y', d => y(d.before))
+        .attr('height', d => height - y(d.before));
+
+    // After bars
+    svg.selectAll('.bar-after')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d.category) + x.bandwidth() / 2 + 5)
+        .attr('width', x.bandwidth() / 2 - 5)
+        .attr('y', height)
+        .attr('height', 0)
+        .attr('fill', colors.primary)
+        .on('mouseover', (event, d) => showTooltip(event, `<strong>${d.category} - After</strong><br>${d.after}%`))
+        .on('mouseout', hideTooltip)
+        .transition()
+        .duration(1000)
+        .delay(200)
+        .attr('y', d => y(d.after))
+        .attr('height', d => height - y(d.after));
+
+    svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x))
+        .attr('class', 'axis');
+
+    svg.append('g')
+        .call(d3.axisLeft(y).tickFormat(d => d + '%'))
+        .attr('class', 'axis');
+
+    // Legend
+    const legend = svg.append('g')
+        .attr('transform', `translate(${width - 150}, -20)`);
+
+    legend.append('rect').attr('width', 15).attr('height', 15).attr('fill', colors.gray);
+    legend.append('text').attr('x', 20).attr('y', 12).text('Before').style('font-size', '12px').attr('fill', colors.gray);
+
+    legend.append('rect').attr('x', 80).attr('width', 15).attr('height', 15).attr('fill', colors.primary);
+    legend.append('text').attr('x', 100).attr('y', 12).text('After').style('font-size', '12px').attr('fill', colors.gray);
+}
+
+// Initialize charts on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize charts for the first visible section (cover has no charts)
+    setTimeout(() => {
+        // Pre-initialize common charts that are likely to be viewed first
+        createYoYGrowthChart();
+    }, 500);
 });
 </script>
 
