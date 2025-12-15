@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBambu Comprehensive Marketing Presentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #27FB6B;
+            --primary-dark: #00052E;
+            --secondary-blue: #0066FF;
+            --light-bg: #F8FAFB;
+            --white: #FFFFFF;
+            --text-dark: #1A1A1A;
+            --text-gray: #6B7280;
+            --border-light: #E5E7EB;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light-bg);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Left Navigation Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a1f4d 100%);
+            padding: 30px 20px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(39, 251, 107, 0.3);
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: 900;
+            color: white;
+        }
+
+        .logo-text span {
+            color: var(--primary-green);
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            padding-left: 15px;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 12px 15px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: rgba(39, 251, 107, 0.1);
+            color: var(--primary-green);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(39, 251, 107, 0.2);
+            color: var(--primary-green);
+            border-left: 4px solid var(--primary-green);
+            font-weight: 700;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: 280px;
+            padding: 40px 60px;
+            min-height: 100vh;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cover Page */
+        .cover-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a1f4d 100%);
+            color: white;
+            text-align: center;
+            margin: -40px -60px;
+            padding: 60px;
+        }
+
+        .cover-title {
+            font-size: 72px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--primary-green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cover-subtitle {
+            font-size: 28px;
+            font-weight: 500;
+            margin-bottom: 60px;
+            opacity: 0.9;
+        }
+
+        .cover-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin-top: 60px;
+        }
+
+        .cover-stat {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .cover-stat:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: var(--primary-green);
+            box-shadow: 0 20px 60px rgba(39, 251, 107, 0.3);
+        }
+
+        .cover-stat-value {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--primary-green);
+            margin-bottom: 8px;
+            text-shadow: 0 0 30px rgba(39, 251, 107, 0.4);
+        }
+
+        .cover-stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* Section Headers */
+        .section-header {
+            margin-bottom: 50px;
+        }
+
+        .section-number {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-green) 0%, #1ed760 100%);
+            color: var(--primary-dark);
+            font-size: 14px;
+            font-weight: 800;
+            padding: 8px 20px;
+            border-radius: 50px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--text-gray);
+            max-width: 800px;
+        }
+
+        /* Metric Cards */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary-green);
+            box-shadow: 0 20px 60px rgba(39, 251, 107, 0.2);
+        }
+
+        .metric-number {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: var(--text-gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .metric-detail {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-top: 10px;
+        }
+
+        /* Content Boxes */
+        .content-box {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            border-left: 6px solid var(--primary-green);
+        }
+
+        .content-box h3 {
+            font-size: 28px;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .content-box p {
+            color: var(--text-gray);
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .content-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .content-box li {
+            padding: 15px 0;
+            padding-left: 40px;
+            position: relative;
+            color: var(--text-gray);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .content-box li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, #1ed760 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 16px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 30px 0;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        thead th {
+            background: var(--primary-green);
+            color: var(--primary-dark);
+            font-weight: 800;
+            padding: 20px;
+            text-align: left;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        tbody td {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-dark);
+            font-size: 15px;
+        }
+
+        tbody tr:hover {
+            background: rgba(39, 251, 107, 0.05);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Insight Box */
+        .insight-box {
+            background: linear-gradient(135deg, var(--primary-green) 0%, #1ed760 100%);
+            color: var(--primary-dark);
+            padding: 30px 40px;
+            border-radius: 16px;
+            margin: 40px 0;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        .insight-box strong {
+            font-weight: 900;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 30px 20px;
+            }
+
+            .cover-title {
+                font-size: 48px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--primary-green);
+            color: var(--primary-dark);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(39, 251, 107, 0.4);
+        }
+
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        /* Scroll to Top Button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-green);
+            color: var(--primary-dark);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(39, 251, 107, 0.4);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 999;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(39, 251, 107, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Mobile Menu Toggle -->
+<button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+<!-- Left Sidebar Navigation -->
+<aside class="sidebar" id="sidebar">
+    <div class="logo-section">
+        <div class="logo-text">My<span>Bambu</span></div>
+        <div style="color: var(--primary-green); font-size: 12px; margin-top: 5px; font-weight: 600;">Marketing Intelligence</div>
+    </div>
+
+    <nav>
+        <div class="nav-section">
+            <div class="nav-section-title">Overview</div>
+            <a class="nav-item active" onclick="showSection('cover')">Executive Summary</a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">Influencer Marketing</div>
+            <a class="nav-item" onclick="showSection('influencer-overview')">2024-2025 Overview</a>
+            <a class="nav-item" onclick="showSection('influencer-performance')">Performance Metrics</a>
+            <a class="nav-item" onclick="showSection('influencer-platforms')">Platform Analysis</a>
+            <a class="nav-item" onclick="showSection('influencer-creators')">Top Creators</a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">Paid Advertising</div>
+            <a class="nav-item" onclick="showSection('paid-ads-q3')">Q3 2025 Results</a>
+            <a class="nav-item" onclick="showSection('paid-ads-conversion')">Conversion Funnel</a>
+            <a class="nav-item" onclick="showSection('paid-ads-efficiency')">Cost Efficiency</a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">Customer Analytics</div>
+            <a class="nav-item" onclick="showSection('customer-stickiness')">Customer Stickiness</a>
+            <a class="nav-item" onclick="showSection('customer-segments')">Customer Segments</a>
+            <a class="nav-item" onclick="showSection('customer-retention')">Retention Analysis</a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">Budget & Strategy</div>
+            <a class="nav-item" onclick="showSection('marketing-budget')">Marketing Budget</a>
+            <a class="nav-item" onclick="showSection('acquisition-channels')">Acquisition Channels</a>
+            <a class="nav-item" onclick="showSection('strategy-insights')">Strategic Insights</a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">October 2025 Deep Dive</div>
+            <a class="nav-item" onclick="showSection('october-overview')">October Overview</a>
+            <a class="nav-item" onclick="showSection('october-acquisition')">Acquisition Analysis</a>
+            <a class="nav-item" onclick="showSection('october-recommendations')">Recommendations</a>
+        </div>
+    </nav>
+</aside>
+
+<!-- Main Content -->
+<main class="main-content">
+
+<!-- Cover / Executive Summary -->
+<section id="cover" class="content-section active">
+    <div class="cover-section">
+        <div class="cover-title">MyBambu Marketing Excellence</div>
+        <div class="cover-subtitle">Comprehensive Marketing Performance Report</div>
+
+        <div class="cover-stats">
+            <div class="cover-stat">
+                <div class="cover-stat-value">100M+</div>
+                <div class="cover-stat-label">Total Video Views</div>
+            </div>
+            <div class="cover-stat">
+                <div class="cover-stat-value">214K</div>
+                <div class="cover-stat-label">Active Customers</div>
+            </div>
+            <div class="cover-stat">
+                <div class="cover-stat-value">113K</div>
+                <div class="cover-stat-label">Q3 New Accounts</div>
+            </div>
+            <div class="cover-stat">
+                <div class="cover-stat-value">$41.40</div>
+                <div class="cover-stat-label">Average CPA</div>
+            </div>
+            <div class="cover-stat">
+                <div class="cover-stat-value">8.37</div>
+                <div class="cover-stat-label">Months Retention</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Influencer Marketing - Overview -->
+<section id="influencer-overview" class="content-section">
+    <div class="section-header">
+        <span class="section-number">Influencer Marketing</span>
+        <h1 class="section-title">2024-2025 Combined Impact</h1>
+        <p class="section-subtitle">Two years of influencer marketing excellence delivering unprecedented results across all platforms and markets</p>
+    </div>
+
+    <div class="metric-grid">
+        <div class="metric-card">
+            <div class="metric-number">100M+</div>
+            <div class="metric-label">Total Views</div>
+            <div class="metric-detail">Across both years</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">1,034</div>
+            <div class="metric-label">Videos Published</div>
+            <div class="metric-detail">432 (2024) + 602 (2025)</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">4.39M</div>
+            <div class="metric-label">Total Engagements</div>
+            <div class="metric-detail">Likes, comments, shares, saves</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">134+</div>
+            <div class="metric-label">Influencers</div>
+            <div class="metric-detail">Active partnerships</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">+56%</div>
+            <div class="metric-label">YoY Growth</div>
+            <div class="metric-detail">2024 to 2025</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">17+</div>
+            <div class="metric-label">Markets</div>
+            <div class="metric-detail">Latin American countries</div>
+        </div>
+    </div>
+
+    <div class="content-box">
+        <h3>Year-by-Year Breakdown</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>2024</th>
+                    <th>2025 (Jan-Oct)</th>
+                    <th>Growth</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Total Videos</strong></td>
+                    <td>432</td>
+                    <td>602</td>
+                    <td style="color: var(--primary-green); font-weight: 700;">+39%</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Views</strong></td>
+                    <td>38.8M</td>
+                    <td>60.4M</td>
+                    <td style="color: var(--primary-green); font-weight: 700;">+56%</td>
+                </tr>
+                <tr>
+                    <td><strong>Avg Views/Video</strong></td>
+                    <td>89,709</td>
+                    <td>100,268</td>
+                    <td style="color: var(--primary-green); font-weight: 700;">+12%</td>
+                </tr>
+                <tr>
+                    <td><strong>Engagement Rate</strong></td>
+                    <td>4.13%</td>
+                    <td>0.83%</td>
+                    <td style="color: #ff6b6b; font-weight: 700;">-80%</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Engagements</strong></td>
+                    <td>1.6M</td>
+                    <td>500K</td>
+                    <td style="color: #ff6b6b; font-weight: 700;">-69%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Influencer Performance -->
+<section id="influencer-performance" class="content-section">
+    <div class="section-header">
+        <span class="section-number">Performance Metrics</span>
+        <h1 class="section-title">2024 Complete Metrics</h1>
+        <p class="section-subtitle">Comprehensive breakdown of all influencer marketing KPIs and engagement data</p>
+    </div>
+
+    <div class="metric-grid">
+        <div class="metric-card">
+            <div class="metric-number">38.8M</div>
+            <div class="metric-label">Total Views</div>
+            <div class="metric-detail">38,754,504 impressions</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">1.45M</div>
+            <div class="metric-label">Total Likes</div>
+            <div class="metric-detail">1,453,096 engagements</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">30,825</div>
+            <div class="metric-label">Comments</div>
+            <div class="metric-detail">Active conversations</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">65,059</div>
+            <div class="metric-label">Shares</div>
+            <div class="metric-detail">Viral distribution</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">49,912</div>
+            <div class="metric-label">Saves</div>
+            <div class="metric-detail">High-value content</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">4.13%</div>
+            <div class="metric-label">Engagement Rate</div>
+            <div class="metric-detail">Industry-leading</div>
+        </div>
+    </div>
+
+    <div class="insight-box">
+        <strong>Key Insight:</strong> 4.13% engagement rate with 1,598,892 total engagements demonstrates authentic audience connection. 89,709 average views per video far exceeds industry benchmarks, proving strategic creator selection and content excellence.
+    </div>
+</section>
+
+<!-- Platform Analysis -->
+<section id="influencer-platforms" class="content-section">
+    <div class="section-header">
+        <span class="section-number">Platform Strategy</span>
+        <h1 class="section-title">Multi-Platform Excellence</h1>
+        <p class="section-subtitle">Strategic distribution across Instagram, TikTok, Facebook, and YouTube</p>
+    </div>
+
+    <div class="metric-grid">
+        <div class="metric-card">
+            <div class="metric-number">61%</div>
+            <div class="metric-label">Instagram</div>
+            <div class="metric-detail">264 videos - Leading Platform</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">26%</div>
+            <div class="metric-label">TikTok</div>
+            <div class="metric-detail">114 videos - High Engagement</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">12%</div>
+            <div class="metric-label">Facebook</div>
+            <div class="metric-detail">51 videos - Mature Audience</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">1%</div>
+            <div class="metric-label">YouTube</div>
+            <div class="metric-detail">3 videos - Growth Opportunity</div>
+        </div>
+    </div>
+</section>
+
+<!-- Top Creators -->
+<section id="influencer-creators" class="content-section">
+    <div class="section-header">
+        <span class="section-number">Hall of Fame</span>
+        <h1 class="section-title">Top Performing Creators 2024</h1>
+        <p class="section-subtitle">Our superstar influencer partners who drove millions of views</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Creator</th>
+                <th>Total Views</th>
+                <th>Performance</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="font-size: 32px;">🥇</td>
+                <td><strong>Antonia Botero</strong></td>
+                <td><strong>10,378,400</strong></td>
+                <td><span style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: white; padding: 6px 16px; border-radius: 20px; font-weight: 700;">Top Performer</span></td>
+            </tr>
+            <tr>
+                <td style="font-size: 32px;">🥈</td>
+                <td><strong>Hormazatv</strong></td>
+                <td><strong>4,423,700</strong></td>
+                <td><span style="background: linear-gradient(135deg, #C0C0C0 0%, #A8A8A8 100%); color: white; padding: 6px 16px; border-radius: 20px; font-weight: 700;">Silver</span></td>
+            </tr>
+            <tr>
+                <td style="font-size: 32px;">🥉</td>
+                <td><strong>Yoaibimar Daal Daal</strong></td>
+                <td><strong>3,522,300</strong></td>
+                <td><span style="background: linear-gradient(135deg, #CD7F32 0%, #B87333 100%); color: white; padding: 6px 16px; border-radius: 20px; font-weight: 700;">Bronze</span></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Antonia Botero y Xavi</td>
+                <td>1,735,000</td>
+                <td>Strong</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Nati Show</td>
+                <td>1,457,110</td>
+                <td>Strong</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- Q3 Paid Ads Results -->
+<section id="paid-ads-q3" class="content-section">
+    <div class="section-header">
+        <span class="section-number">Q3 2025 Paid Advertising</span>
+        <h1 class="section-title">Q3 Results - Exceeded Target</h1>
+        <p class="section-subtitle">112,965 accounts acquired at $41.40 CPA - 22% above goal</p>
+    </div>
+
+    <div class="metric-grid">
+        <div class="metric-card">
+            <div class="metric-number">92,837</div>
+            <div class="metric-label">Original Goal</div>
+            <div class="metric-detail">accounts at $45 CPA</div>
+        </div>
+        <div class="metric-card" style="border-color: var(--primary-green);">
+            <div class="metric-number">112,965</div>
+            <div class="metric-label">Real Result</div>
+            <div class="metric-detail">accounts at $47.95 CPA</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">73,257</div>
+            <div class="metric-label">Paid Channel</div>
+            <div class="metric-detail">accounts at $41.40 CPA</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">+20,128</div>
+            <div class="metric-label">vs Target</div>
+            <div class="metric-detail">more accounts than planned</div>
+        </div>
+    </div>
+
+    <div class="content-box">
+        <h3>Industry Benchmark Comparison</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>MyBambu</th>
+                    <th>Industry</th>
+                    <th>Performance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>CPA (Cost Per Account)</strong></td>
+                    <td style="color: var(--primary-green); font-weight: 900;">$41.40</td>
+                    <td>$65-85</td>
+                    <td style="color: var(--primary-green); font-weight: 700;">▲ 40% Better</td>
+                </tr>
+                <tr>
+                    <td><strong>Install-to-Account Rate</strong></td>
+                    <td style="color: var(--primary-green); font-weight: 900;">35%</td>
+                    <td>20-25%</td>
+                    <td style="color: var(--primary-green); font-weight: 700;">▲ 40% Better</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="insight-box">
+        <strong>Insight:</strong> We exceeded our Q3 goal by 22%, bringing in 112,965 accounts. Our CPA of $41.40 is 40% better than the fintech industry average of $65-85, demonstrating exceptional campaign efficiency.
+    </div>
+</section>
+
+<!-- Conversion Funnel -->
+<section id="paid-ads-conversion" class="content-section">
+    <div class="section-header">
+        <span class="section-number">Conversion Analysis</span>
+        <h1 class="section-title">Q3 Conversion Funnel</h1>
+        <p class="section-subtitle">35% end-to-end conversion rate exceeds 30% KPI</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Install → Profile</th>
+                <th>Profile → Account</th>
+                <th>Install → Account (30% KPI)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>July</strong></td>
+                <td>47%</td>
+                <td>60%</td>
+                <td style="color: #ff6b6b; font-weight: 900;">28% ⚠️</td>
+            </tr>
+            <tr>
+                <td><strong>August</strong></td>
+                <td>50%</td>
+                <td>61%</td>
+                <td style="color: var(--primary-green); font-weight: 900;">31% ✓</td>
+            </tr>
+            <tr>
+                <td><strong>September</strong></td>
+                <td>56%</td>
+                <td>63%</td>
+                <td style="color: var(--primary-green); font-weight: 900; font-size: 20px;">35% 🚀</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="insight-box">
+        <strong>Insight:</strong> September's 35% end-to-end conversion rate is 75% better than industry standard (20-25%) and exceeds our 30% KPI. Strong product-market fit and effective onboarding driving results. Quarterly improvement of +7 points (25% growth).
+    </div>
+</section>
+
+<!-- Cost Efficiency -->
+<section id="paid-ads-efficiency" class="content-section">
+    <div class="section-header">
+        <span class="section-number">Cost Efficiency</span>
+        <h1 class="section-title">Cost Metrics vs Industry</h1>
+        <p class="section-subtitle">All metrics significantly below industry benchmarks</p>
+    </div>
+
+    <div class="metric-grid">
+        <div class="metric-card">
+            <div class="metric-number">$15.18</div>
+            <div class="metric-label">CPI (Q3 Avg)</div>
+            <div class="metric-detail">Industry: $18-25 | ▲ 15% Better</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">$29.67</div>
+            <div class="metric-label">CPP (Q3 Avg)</div>
+            <div class="metric-detail">Industry: $35-50 | ▲ 20% Better</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">$41.40</div>
+            <div class="metric-label">CPA (Q3 Avg)</div>
+            <div class="metric-detail">Industry: $65-85 | ▲ 40% Better</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">$5.4M</div>
+            <div class="metric-label">Total Q3 Spend</div>
+            <div class="metric-detail">Marketing investment</div>
+        </div>
+    </div>
+
+    <div class="insight-box">
+        <strong>Insight:</strong> All cost metrics significantly below industry benchmarks. CPA of $41.40 is 40% more efficient than fintech average, indicating excellent campaign optimization and strong organic growth complementing paid efforts.
+    </div>
+</section>
+
+<!-- Customer Stickiness -->
+<section id="customer-stickiness" class="content-section">
+    <div class="section-header">
+        <span class="section-number">Customer Analytics</span>
+        <h1 class="section-title">Customer Stickiness Analysis</h1>
+        <p class="section-subtitle">214,852 active customers with 8.37 month average retention</p>
+    </div>
+
+    <div class="metric-grid">
+        <div class="metric-card">
+            <div class="metric-number">214,852</div>
+            <div class="metric-label">Active Customers</div>
+            <div class="metric-detail">Past 6 months</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">8.37</div>
+            <div class="metric-label">Avg Retention</div>
+            <div class="metric-detail">Months</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">$9.06</div>
+            <div class="metric-label">Avg Monthly Revenue</div>
+            <div class="metric-detail">Per customer</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">14</div>
+            <div class="metric-label">Avg Monthly Transactions</div>
+            <div class="metric-detail">Per customer</div>
+        </div>
+    </div>
+</section>
+
+<!-- Customer Segments -->
+<section id="customer-segments" class="content-section">
+    <div class="section-header">
+        <span class="section-number">Customer Segments</span>
+        <h1 class="section-title">5 Customer Segments</h1>
+        <p class="section-subtitle">Based on engagement, transaction frequency, and lifetime value</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Segment</th>
+                <th>Customers</th>
+                <th>% of Total</th>
+                <th>Retention</th>
+                <th>Avg Revenue</th>
+                <th>Transactions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>💎 Diamond</strong></td>
+                <td>18,447</td>
+                <td>8.58%</td>
+                <td><strong>13.51 months</strong></td>
+                <td><strong>$30.60/mo</strong></td>
+                <td>44/month</td>
+            </tr>
+            <tr>
+                <td><strong>💚 Emerald</strong></td>
+                <td>34,721</td>
+                <td>16.16%</td>
+                <td>11.35 months</td>
+                <td>$13.96/mo</td>
+                <td>21/month</td>
+            </tr>
+            <tr>
+                <td><strong>💙 Sapphire</strong></td>
+                <td>49,383</td>
+                <td>22.99%</td>
+                <td>9.23 months</td>
+                <td>$6.18/mo</td>
+                <td>11/month</td>
+            </tr>
+            <tr>
+                <td><strong>🔷 Ruby</strong></td>
+                <td>40,886</td>
+                <td>19.03%</td>
+                <td>7.7 months</td>
+                <td>$3.12/mo</td>
+                <td>8/month</td>
+            </tr>
+            <tr>
+                <td><strong>⚪ Pearl</strong></td>
+                <td>71,415</td>
+                <td>33.24%</td>
+                <td>4.64 months</td>
+                <td>$2.08/mo</td>
+                <td>4/month</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="insight-box">
+        <strong>Key Insight:</strong> Diamond customers stay 3x longer than average and generate 3.4x more revenue per month. Top 25% of customers (Diamond + Emerald) drive majority of engagement and revenue.
+    </div>
+</section>
+
+<!-- Retention Analysis -->
+<section id="customer-retention" class="content-section">
+    <div class="section-header">
+        <span class="section-number">Retention</span>
+        <h1 class="section-title">Product Bundling Drives Stickiness</h1>
+        <p class="section-subtitle">Customers using multiple products stay active significantly longer</p>
+    </div>
+
+    <div class="content-box">
+        <h3>Product Adoption Rates</h3>
+        <ul>
+            <li><strong>Card + Cash Loads:</strong> 56.0% adoption (128,498 users) - Most popular bundle</li>
+            <li><strong>Card + International Transfers:</strong> 31.04% adoption (71,272 users) - Highest retention</li>
+            <li><strong>Card + Top-Ups:</strong> 22.5% adoption (51,744 users)</li>
+            <li><strong>Card + Direct Deposit:</strong> 20.64% adoption (47,403 users)</li>
+        </ul>
+    </div>
+
+    <div class="insight-box">
+        <strong>Insight:</strong> Customers using Card + International Transfers show the highest retention at 29.4% staying 6+ months. Product bundling is a critical driver of customer lifetime value. Multi-product users have 40% higher retention than single-product users.
+    </div>
+</section>
+
+<!-- Marketing Budget -->
+<section id="marketing-budget" class="content-section">
+    <div class="section-header">
+        <span class="section-number">Budget Planning</span>
+        <h1 class="section-title">Marketing Budget - $600K/Month</h1>
+        <p class="section-subtitle">Strategic reallocation: 70% budget reduction | 50% Boots focus</p>
+    </div>
+
+    <div class="metric-grid">
+        <div class="metric-card">
+            <div class="metric-number">$600K</div>
+            <div class="metric-label">Monthly Budget</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">10,424</div>
+            <div class="metric-label">Target Customers</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">$57.56</div>
+            <div class="metric-label">Blended CAC</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">50%</div>
+            <div class="metric-label">Boots Allocation</div>
+        </div>
+    </div>
+
+    <div class="content-box">
+        <h3>Budget Allocation by Channel</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Channel</th>
+                    <th>Budget</th>
+                    <th>% of Total</th>
+                    <th>CPA Target</th>
+                    <th>Target Customers</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>👥 Boots on Ground</strong></td>
+                    <td>$258K</td>
+                    <td>50%</td>
+                    <td>$55</td>
+                    <td>4,691</td>
+                </tr>
+                <tr>
+                    <td><strong>💻 Digital Ads</strong></td>
+                    <td>$207K</td>
+                    <td>40%</td>
+                    <td>$40-45</td>
+                    <td>4,600</td>
+                </tr>
+                <tr>
+                    <td><strong>📻 Traditional</strong></td>
+                    <td>$51K</td>
+                    <td>10%</td>
+                    <td>$40-45</td>
+                    <td>1,133</td>
+                </tr>
+                <tr>
+                    <td><strong>💰 Incentives</strong></td>
+                    <td>$84K</td>
+                    <td>-</td>
+                    <td>$30 per customer</td>
+                    <td>28% activation</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="insight-box">
+        <strong>Strategy:</strong> Increased Boots allocation (50%) for stability and predictable performance at fixed $55 CPA. Digital (40%) focused on highest-ROI campaigns. Traditional (10%) maintains minimal brand presence. 70% budget reduction from $2M to $600K/month.
+    </div>
+</section>
+
+<!-- Acquisition Channels -->
+<section id="acquisition-channels" class="content-section">
+    <div class="section-header">
+        <span class="section-number">Channel Analysis</span>
+        <h1 class="section-title">Customer Acquisition Channels</h1>
+        <p class="section-subtitle">Multi-channel strategy with focus on efficiency and scale</p>
+    </div>
+
+    <div class="content-box">
+        <h3>Channel Strategy Rationale</h3>
+        <ul>
+            <li><strong>Boots (50%):</strong> Increased for stability and predictable performance at fixed $55 CPA - proven to work in Hispanic communities with personal touch</li>
+            <li><strong>Digital (40%):</strong> Focused on highest-ROI campaigns with $40-45 CAC target - leveraging Facebook, Instagram, Google, TikTok</li>
+            <li><strong>Traditional (10%):</strong> Maintains minimal brand presence at $51K monthly - radio, OOH in key markets</li>
+            <li><strong>Referral Program:</strong> Low-cost acquisition through word-of-mouth, targeting 10-30% conversion rate on invites</li>
+            <li><strong>Organic (App Store):</strong> Free acquisition through app store optimization and discovery</li>
+        </ul>
+    </div>
+
+    <div class="content-box">
+        <h3>Before & After Comparison</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Before</th>
+                    <th>After</th>
+                    <th>Change</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Budget</strong></td>
+                    <td>$2M</td>
+                    <td>$600K</td>
+                    <td style="color: #ff6b6b; font-weight: 700;">-70%</td>
+                </tr>
+                <tr>
+                    <td><strong>Boots Allocation</strong></td>
+                    <td>30%</td>
+                    <td>50%</td>
+                    <td style="color: var(--primary-green); font-weight: 700;">+20pp</td>
+                </tr>
+                <tr>
+                    <td><strong>Digital Allocation</strong></td>
+                    <td>52%</td>
+                    <td>40%</td>
+                    <td style="color: #ff6b6b; font-weight: 700;">-12pp</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Strategic Insights -->
+<section id="strategy-insights" class="content-section">
+    <div class="section-header">
+        <span class="section-number">Strategy</span>
+        <h1 class="section-title">Key Strategic Insights</h1>
+        <p class="section-subtitle">Data-driven recommendations for growth and optimization</p>
+    </div>
+
+    <div class="content-box">
+        <h3>🎯 What's Working Well</h3>
+        <ul>
+            <li><strong>Paid Advertising Efficiency:</strong> $41.40 CPA is 40% better than industry average - continue optimizing top-performing campaigns</li>
+            <li><strong>Conversion Funnel:</strong> 35% end-to-end conversion rate exceeds 30% KPI - strong product-market fit</li>
+            <li><strong>Influencer Marketing Scale:</strong> 100M+ views across 1,034 videos demonstrates massive reach in Hispanic communities</li>
+            <li><strong>Customer Retention:</strong> 8.37 month average retention with Diamond customers staying 13.51 months shows strong stickiness</li>
+            <li><strong>Multi-Product Adoption:</strong> Card + International Transfers bundle drives 29.4% retention at 6+ months</li>
+        </ul>
+    </div>
+
+    <div class="content-box">
+        <h3>⚠️ Areas for Improvement</h3>
+        <ul>
+            <li><strong>Influencer Engagement Drop:</strong> 2025 engagement rate (0.83%) down 80% from 2024 (4.13%) - needs investigation and strategy pivot</li>
+            <li><strong>YouTube Underutilization:</strong> Only 1% of influencer content on YouTube - missing long-form educational opportunity</li>
+            <li><strong>Pearl Segment Activation:</strong> 33% of customers in lowest tier (Pearl) - opportunity to move up-market with targeted campaigns</li>
+            <li><strong>Geographic Expansion:</strong> Strong in Venezuela/Mexico but untapped potential in Colombia, Peru, Ecuador markets</li>
+        </ul>
+    </div>
+
+    <div class="insight-box">
+        <strong>Recommendation:</strong> Double down on paid ads efficiency while fixing influencer engagement. Expand YouTube strategy for evergreen content. Focus on upgrading Pearl customers through direct deposit and remittance incentives. Test geo-expansion in Colombia/Peru with localized boots teams.
+    </div>
+</section>
+
+<!-- October Overview -->
+<section id="october-overview" class="content-section">
+    <div class="section-header">
+        <span class="section-number">October 2025</span>
+        <h1 class="section-title">October Deep Dive</h1>
+        <p class="section-subtitle">Comprehensive analysis framework for monthly performance</p>
+    </div>
+
+    <div class="content-box">
+        <h3>Analysis Framework - 11 Key Areas</h3>
+        <ul>
+            <li><strong>User Metrics:</strong> MAU, DAU, new signups, churn analysis</li>
+            <li><strong>Transaction Metrics:</strong> Card spend, BambuPay volume, remittances, P2P</li>
+            <li><strong>Revenue Analysis:</strong> Interchange, fees, revenue per user (RPU)</li>
+            <li><strong>BambuPay Performance:</strong> Active users, activation rate, transaction trends</li>
+            <li><strong>Card Performance:</strong> Activation rates, spend patterns, merchant categories</li>
+            <li><strong>Remittances:</strong> Corridor analysis, pricing optimization, competitive positioning</li>
+            <li><strong>Marketing & Acquisition:</strong> New signups, CAC by channel, referral program</li>
+            <li><strong>Product Adoption:</strong> Multi-product usage, cross-sell success</li>
+            <li><strong>Risk & Compliance:</strong> Fraud rates, chargebacks, KYC approval rates</li>
+            <li><strong>Customer Support:</strong> Ticket volume, resolution time, satisfaction scores</li>
+            <li><strong>Strategic Analysis:</strong> MoM/YoY comparisons, cohort retention, target achievement</li>
+        </ul>
+    </div>
+</section>
+
+<!-- October Acquisition -->
+<section id="october-acquisition" class="content-section">
+    <div class="section-header">
+        <span class="section-number">Acquisition Analysis</span>
+        <h1 class="section-title">October Marketing & Acquisition</h1>
+        <p class="section-subtitle">New user acquisition, channel effectiveness, and campaign ROI</p>
+    </div>
+
+    <div class="content-box">
+        <h3>Key Metrics to Track</h3>
+        <ul>
+            <li><strong>Total New Signups:</strong> Users who started registration process</li>
+            <li><strong>Completed Registrations:</strong> Users who finished signup (target: 60-75% completion rate)</li>
+            <li><strong>Net New Active Users:</strong> Completed signup + made first transaction</li>
+            <li><strong>Signup Funnel Drop-offs:</strong> Where users abandon (email verification, KYC, bank setup)</li>
+        </ul>
+    </div>
+
+    <div class="content-box">
+        <h3>Acquisition Source Breakdown</h3>
+        <ul>
+            <li><strong>Organic:</strong> Word of mouth, direct traffic ($0 CAC)</li>
+            <li><strong>Referral Program:</strong> Existing users inviting friends (target: 10-30% conversion)</li>
+            <li><strong>Paid Advertising:</strong> Google, Facebook/Instagram, TikTok, YouTube</li>
+            <li><strong>App Store Discovery:</strong> iOS App Store, Google Play Store organic</li>
+            <li><strong>Social Media:</strong> Organic reach on social platforms</li>
+            <li><strong>Partner Referrals:</strong> Strategic partnerships and co-marketing</li>
+            <li><strong>Email Campaigns:</strong> Targeted email marketing to prospects</li>
+        </ul>
+    </div>
+
+    <div class="insight-box">
+        <strong>Analysis Framework:</strong> Compare October acquisition metrics vs September (MoM) and vs October 2024 (YoY). Identify highest volume channel, most cost-effective channel, highest conversion rate, and fastest-growing channel. Target: Average CAC <$50, Signup completion rate >60%.
+    </div>
+</section>
+
+<!-- October Recommendations -->
+<section id="october-recommendations" class="content-section">
+    <div class="section-header">
+        <span class="section-number">Action Plan</span>
+        <h1 class="section-title">November 2025 Recommendations</h1>
+        <p class="section-subtitle">Data-driven initiatives to amplify impact and drive growth</p>
+    </div>
+
+    <div class="content-box">
+        <h3>Priority Initiatives for November</h3>
+        <ul>
+            <li><strong>Tier 1 (Critical):</strong> Fix influencer engagement decline - audit content quality, test new creator partnerships, increase TikTok focus from 26% to 40%</li>
+            <li><strong>Tier 1 (Critical):</strong> Maintain paid ads efficiency - scale winning campaigns, pause underperformers, test new creative variants</li>
+            <li><strong>Tier 2 (Important):</strong> Upgrade Pearl customers - targeted campaigns for direct deposit adoption, remittance incentives, product bundling</li>
+            <li><strong>Tier 2 (Important):</strong> Geographic expansion testing - pilot boots teams in Colombia/Peru, localized influencer partnerships</li>
+            <li><strong>Tier 3 (Nice to Have):</strong> YouTube long-form strategy - partner with influencers for 8-15 minute educational videos, SEO optimization</li>
+            <li><strong>Tier 3 (Nice to Have):</strong> Brand Ambassador Program - select 10-15 top performers as official ambassadors with 12-month contracts</li>
+        </ul>
+    </div>
+
+    <div class="content-box">
+        <h3>Success Metrics for November</h3>
+        <ul>
+            <li>Achieve 10,400+ customers at $45 CAC (baseline scenario)</li>
+            <li>Digital CAC stays below $45</li>
+            <li>Boots delivers 4,691 customers with quality</li>
+            <li>Blended CAC below $60</li>
+            <li>Influencer engagement rate improves to 2%+ (from 0.83%)</li>
+            <li>Pearl-to-Ruby segment upgrades: 5% of Pearl base</li>
+        </ul>
+    </div>
+
+    <div class="insight-box">
+        <strong>Executive Summary:</strong> MyBambu demonstrates strong fundamentals with best-in-class paid advertising efficiency ($41.40 CPA vs $65-85 industry), exceptional customer retention (8.37 months avg), and massive influencer reach (100M+ views). Key focus areas: fix influencer engagement decline, maintain paid ads efficiency, upgrade lower-tier customers, and test geographic expansion. With disciplined execution, November can deliver 10,400+ new customers within budget.
+    </div>
+</section>
+
+</main>
+
+<!-- Scroll to Top Button -->
+<div class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</div>
+
+<script>
+// Navigation
+function showSection(sectionId) {
+    // Hide all sections
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    // Show selected section
+    document.getElementById(sectionId).classList.add('active');
+
+    // Update active nav item
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    event.target.classList.add('active');
+
+    // Scroll to top of main content
+    document.querySelector('.main-content').scrollTop = 0;
+
+    // Close mobile sidebar
+    if (window.innerWidth <= 1024) {
+        document.getElementById('sidebar').classList.remove('active');
+    }
+}
+
+// Mobile sidebar toggle
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('active');
+}
+
+// Scroll to top
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Show/hide scroll to top button
+window.addEventListener('scroll', () => {
+    const scrollTop = document.getElementById('scrollTop');
+    if (window.pageYOffset > 300) {
+        scrollTop.classList.add('visible');
+    } else {
+        scrollTop.classList.remove('visible');
+    }
+});
+
+// Close sidebar when clicking outside on mobile
+document.addEventListener('click', (e) => {
+    const sidebar = document.getElementById('sidebar');
+    const menuToggle = document.querySelector('.menu-toggle');
+
+    if (window.innerWidth <= 1024 &&
+        !sidebar.contains(e.target) &&
+        !menuToggle.contains(e.target) &&
+        sidebar.classList.contains('active')) {
+        sidebar.classList.remove('active');
+    }
+});
+</script>
+
+</body>
+</html>
